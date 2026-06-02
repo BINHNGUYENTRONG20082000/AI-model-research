@@ -1,0 +1,885 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<meta name="ProgId" content="Word.Document">
+<title>Quy trinh phat trien va trien khai Model AI</title>
+<style>
+@page { size: A4; margin: 2.2cm 2cm; }
+body { font-family: "Calibri","Segoe UI",Arial,sans-serif; font-size: 11pt; line-height: 1.45; color: #1a1a1a; }
+h1 { font-size: 18pt; color: #14306b; border-bottom: 2px solid #14306b; padding-bottom: 4px; page-break-before: always; margin-top: 0; }
+h1.nobreak { page-break-before: avoid; }
+h2 { font-size: 14pt; color: #1f4e9b; margin-top: 18px; }
+h3 { font-size: 12pt; color: #2a2a2a; margin-top: 14px; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 10pt; }
+th, td { border: 1px solid #9aa7bd; padding: 4px 7px; vertical-align: top; text-align: left; }
+th { background: #e7edf7; color: #14306b; }
+code { background: #f2f3f5; padding: 1px 4px; border-radius: 3px; font-family: Consolas,monospace; font-size: 9.5pt; }
+.tag { font-weight: bold; color: #7a2da3; }
+.tagml { font-weight: bold; color: #0b6b3a; }
+ul, ol { margin-top: 4px; }
+li { margin: 2px 0; }
+.cover { text-align: center; margin-top: 120px; page-break-after: always; }
+.cover h1 { border: none; page-break-before: avoid; font-size: 30pt; color: #14306b; }
+.cover .sub { font-size: 14pt; color: #444; margin-top: 12px; }
+.cover .meta { font-size: 11pt; color: #666; margin-top: 60px; }
+.toc a { color: #1f4e9b; text-decoration: none; }
+.toc li { margin: 3px 0; }
+.note { background: #f5f8ff; border-left: 4px solid #1f4e9b; padding: 6px 12px; margin: 10px 0; font-style: italic; }
+.flow { background: #f5f8ff; border: 1px solid #c5d2ea; padding: 10px 14px; border-radius: 6px; font-weight: 600; color: #14306b; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <h1>QUY TRÌNH PHÁT TRIỂN &amp; TRIỂN KHAI MODEL AI</h1>
+  <div class="sub">Tài liệu quy trình từng bước: từ tiếp nhận yêu cầu, nghiên cứu, đánh giá model đến triển khai &amp; vận hành trong sản phẩm phần mềm</div>
+  <div class="sub" style="margin-top:8px;">Áp dụng cho ML truyền thống và LLM/GenAI</div>
+  <div class="meta">
+    Phiên bản 1.0<br>
+    Phân loại: Tài liệu quy trình nội bộ<br>
+    Kèm Phụ lục: 6 biểu mẫu chuẩn
+  </div>
+</div>
+
+<!-- ============ MUC LUC ============ -->
+<h1 class="nobreak">Mục lục</h1>
+<div class="toc">
+<ol>
+  <li><a href="#gioithieu">Giới thiệu &amp; phạm vi áp dụng</a></li>
+  <li><a href="#sodo">Sơ đồ tổng quan quy trình</a></li>
+  <li><a href="#vaitro">Vai trò tham gia &amp; mô hình RACI</a></li>
+  <li><a href="#khung">Khung chuẩn cho mỗi giai đoạn</a></li>
+  <li><a href="#gd1">Giai đoạn 1 — Tiếp nhận &amp; làm rõ yêu cầu</a></li>
+  <li><a href="#gd2">Giai đoạn 2 — Nghiên cứu &amp; đánh giá khả thi</a></li>
+  <li><a href="#gd3">Giai đoạn 3 — Dữ liệu</a></li>
+  <li><a href="#gd4">Giai đoạn 4 — Thử nghiệm &amp; lựa chọn model</a></li>
+  <li><a href="#gd5">Giai đoạn 5 — Đánh giá model</a></li>
+  <li><a href="#gd6">Giai đoạn 6 — Tích hợp vào phần mềm</a></li>
+  <li><a href="#gd7">Giai đoạn 7 — Kiểm thử &amp; QA</a></li>
+  <li><a href="#gd8">Giai đoạn 8 — Triển khai (Deploy)</a></li>
+  <li><a href="#gd9">Giai đoạn 9 — Giám sát &amp; vận hành (MLOps/LLMOps)</a></li>
+  <li><a href="#gd10">Giai đoạn 10 — Cải tiến lặp</a></li>
+  <li><a href="#phuluc">PHỤ LỤC — Bộ biểu mẫu chuẩn</a>
+    <ul>
+      <li><a href="#pl1">Phụ lục A — Requirement Brief</a></li>
+      <li><a href="#pl2">Phụ lục B — Model Evaluation Scorecard</a></li>
+      <li><a href="#pl3">Phụ lục C — Model Card</a></li>
+      <li><a href="#pl4">Phụ lục D — Deployment Checklist</a></li>
+      <li><a href="#pl5">Phụ lục E — Monitoring Runbook</a></li>
+      <li><a href="#pl6">Phụ lục F — Risk Assessment</a></li>
+    </ul>
+  </li>
+</ol>
+</div>
+
+<!-- ============ GIOI THIEU ============ -->
+<h1 id="gioithieu">1. Giới thiệu &amp; phạm vi áp dụng</h1>
+<p>Tài liệu chuẩn hóa quy trình từng bước đưa một mô hình AI vào sản phẩm phần mềm: từ lúc <b>tiếp nhận yêu cầu</b>, <b>nghiên cứu</b>, <b>chuẩn bị dữ liệu</b>, <b>thử nghiệm và đánh giá model</b>, đến <b>tích hợp, kiểm thử, triển khai (deploy)</b> và <b>vận hành &ndash; cải tiến</b>.</p>
+<p>Tài liệu áp dụng cho cả hai nhóm:</p>
+<ul>
+  <li><span class="tagml">[ML]</span> <b>ML truyền thống</b>: tự huấn luyện model phân loại/hồi quy/dự đoán (dự đoán churn, chấm điểm rủi ro, phát hiện gian lận, gợi ý...).</li>
+  <li><span class="tag">[LLM]</span> <b>LLM/GenAI</b>: dùng API mô hình ngôn ngữ lớn, fine-tune, RAG, hệ thống dựa trên prompt (chatbot, trợ lý, tóm tắt, trích xuất...).</li>
+</ul>
+<p>Ở những bước có khác biệt giữa hai nhóm, tài liệu ghi chú rõ bằng nhãn <span class="tagml">[ML]</span> và <span class="tag">[LLM]</span>.</p>
+
+<!-- ============ SO DO ============ -->
+<h1 id="sodo">2. Sơ đồ tổng quan quy trình</h1>
+<p class="flow">
+1. Tiếp nhận yêu cầu &rarr; 2. Nghiên cứu &amp; khả thi &rarr; 3. Dữ liệu &rarr; 4. Thử nghiệm &amp; chọn model &rarr; 5. Đánh giá model<br>
+&nbsp;&nbsp;&nbsp;&bull; Nếu <b>Go</b> &rarr; 6. Tích hợp &rarr; 7. Kiểm thử &amp; QA &rarr; 8. Triển khai/Deploy &rarr; 9. Giám sát &amp; vận hành &rarr; 10. Cải tiến lặp<br>
+&nbsp;&nbsp;&nbsp;&bull; Nếu <b>No-Go</b> ở bước 5 &rarr; quay lại bước 2 (nghiên cứu)<br>
+&nbsp;&nbsp;&nbsp;&bull; Bước 10 (cải tiến) khép vòng &rarr; quay lại bước 3 (dữ liệu)
+</p>
+<p class="note">Quy trình là một vòng lặp: kết quả giám sát ở giai đoạn vận hành quay lại nuôi dưỡng các giai đoạn dữ liệu/nghiên cứu để cải tiến liên tục.</p>
+
+<!-- ============ VAI TRO ============ -->
+<h1 id="vaitro">3. Vai trò tham gia &amp; mô hình RACI</h1>
+<table>
+<tr><th>Vai trò</th><th>Mô tả</th></tr>
+<tr><td>Product Owner / BA</td><td>Sở hữu yêu cầu nghiệp vụ, KPI, ưu tiên</td></tr>
+<tr><td>Data Scientist / ML Engineer</td><td>Nghiên cứu, train, đánh giá model</td></tr>
+<tr><td>Data Engineer</td><td>Pipeline dữ liệu, hạ tầng dữ liệu</td></tr>
+<tr><td>ML/Platform Engineer (MLOps)</td><td>Đóng gói, deploy, giám sát</td></tr>
+<tr><td>Software Engineer</td><td>Tích hợp model vào sản phẩm</td></tr>
+<tr><td>QA Engineer</td><td>Kiểm thử chất lượng &amp; an toàn</td></tr>
+<tr><td>Security / Legal / Compliance</td><td>Bảo mật, pháp lý, quyền riêng tư</td></tr>
+<tr><td>SRE / On-call</td><td>Vận hành, xử lý sự cố</td></tr>
+</table>
+<p class="note"><b>RACI</b>: R = Responsible (người làm), A = Accountable (người chịu trách nhiệm cuối cùng), C = Consulted (được tham vấn), I = Informed (được thông báo).</p>
+
+<!-- ============ KHUNG ============ -->
+<h1 id="khung">4. Khung chuẩn cho mỗi giai đoạn</h1>
+<p>Mỗi giai đoạn được trình bày theo cùng một khung để dễ áp dụng và kiểm tra:</p>
+<ol>
+  <li><b>Mục tiêu</b> — giai đoạn này nhằm đạt được điều gì.</li>
+  <li><b>Đầu vào</b> — cần có gì để bắt đầu.</li>
+  <li><b>Hoạt động chi tiết</b> — các bước thực hiện, có ghi chú [ML]/[LLM].</li>
+  <li><b>Vai trò (RACI)</b> — ai chịu trách nhiệm, ai tư vấn, ai được thông báo.</li>
+  <li><b>Đầu ra</b> — sản phẩm bàn giao của giai đoạn.</li>
+  <li><b>Checklist</b> — danh sách kiểm tra nhanh.</li>
+  <li><b>Tiêu chí qua cổng (Gate / Definition of Done)</b> — điều kiện chuyển sang giai đoạn tiếp theo.</li>
+</ol>
+
+<!-- ============ GIAI DOAN 1 ============ -->
+<h1 id="gd1">Giai đoạn 1 — Tiếp nhận &amp; làm rõ yêu cầu</h1>
+<h2>Mục tiêu</h2>
+<p>Hiểu đúng <b>bài toán nghiệp vụ</b> đằng sau yêu cầu, xác định liệu AI có thực sự là giải pháp phù hợp, và chốt được mục tiêu đo lường được (KPI) cùng các ràng buộc trước khi đầu tư nguồn lực.</p>
+<p class="note">Nguyên tắc: "Không bắt đầu bằng việc chọn model, mà bắt đầu bằng việc hiểu vấn đề." Nhiều yêu cầu có thể giải bằng quy tắc nghiệp vụ (rules) hoặc thống kê đơn giản, rẻ và dễ bảo trì hơn AI.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Yêu cầu từ khách hàng / stakeholder (mô tả vấn đề, mong đợi).</li>
+  <li>Bối cảnh sản phẩm, người dùng, quy trình nghiệp vụ hiện tại.</li>
+  <li>Ràng buộc đã biết (ngân sách, thời hạn, dữ liệu sẵn có, quy định pháp lý).</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Làm rõ vấn đề nghiệp vụ</b>: vấn đề thực sự cần giải là gì? Ai là người dùng? Quyết định/hành động nào thay đổi nhờ AI? Hiện đang xử lý thế nào? Chi phí của việc làm sai là gì?</li>
+  <li><b>Xác định AI có cần thiết không</b>: có thể giải bằng rule/heuristic/thống kê không? Bài toán có tính lặp lại, có dữ liệu, có mẫu để học không?</li>
+  <li><b>Định nghĩa mục tiêu &amp; KPI</b>: KPI nghiệp vụ (vd giảm 20% thời gian xử lý), chỉ số kỹ thuật tương ứng (vd F1 &ge; 0.85), và <b>tiêu chí thành công tối thiểu</b> để được coi là đáng deploy.</li>
+  <li><b>Xác định ràng buộc phi chức năng</b>: độ trễ (latency), chi phí (<span class="tag">[LLM]</span> chi phí token), bảo mật &amp; quyền riêng tư (PII, nơi xử lý), pháp lý &amp; tuân thủ, khối lượng/đỉnh tải.</li>
+  <li><b>Phân loại bài toán</b>: <span class="tagml">[ML]</span> phân loại/hồi quy/xếp hạng/phát hiện bất thường/dự báo chuỗi thời gian; <span class="tag">[LLM]</span> sinh văn bản/hỏi đáp/tóm tắt/trích xuất/phân loại bằng prompt/agent.</li>
+  <li><b>Đánh giá rủi ro sơ bộ</b> (dùng Phụ lục F): tác hại nếu sai, nhóm bị ảnh hưởng, mức độ tự động hóa quyết định.</li>
+  <li><b>Chốt phạm vi (scope)</b>: phạm vi MVP và những gì nằm ngoài phạm vi.</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>PO/BA</th><th>Data Scientist</th><th>Eng</th><th>Security/Legal</th></tr>
+<tr><td>Làm rõ vấn đề &amp; KPI</td><td>A/R</td><td>C</td><td>C</td><td>I</td></tr>
+<tr><td>Đánh giá khả thi sơ bộ</td><td>C</td><td>R</td><td>C</td><td>I</td></tr>
+<tr><td>Ràng buộc bảo mật/pháp lý</td><td>C</td><td>C</td><td>C</td><td>A/R</td></tr>
+<tr><td>Chốt phạm vi MVP</td><td>A/R</td><td>C</td><td>C</td><td>I</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li><b>Requirement Brief</b> đã điền (Phụ lục A).</li>
+  <li>Danh sách KPI &amp; tiêu chí thành công tối thiểu.</li>
+  <li>Danh sách ràng buộc phi chức năng.</li>
+  <li>Bản đánh giá rủi ro sơ bộ.</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Vấn đề nghiệp vụ và người dùng được mô tả rõ ràng.</li>
+  <li>&#9744; Đã cân nhắc giải pháp không-AI (rule/heuristic) làm baseline.</li>
+  <li>&#9744; KPI nghiệp vụ và chỉ số kỹ thuật đo được, có ngưỡng tối thiểu.</li>
+  <li>&#9744; Ràng buộc latency/chi phí/bảo mật/pháp lý được ghi nhận.</li>
+  <li>&#9744; Loại bài toán được phân loại rõ ([ML]/[LLM]).</li>
+  <li>&#9744; Rủi ro sơ bộ và mức độ tác hại được đánh giá.</li>
+  <li>&#9744; Phạm vi MVP được chốt và thống nhất với stakeholder.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Có Requirement Brief được stakeholder phê duyệt.</li>
+  <li>Có định nghĩa thành công đo lường được và ràng buộc rõ ràng.</li>
+  <li>Quyết định: <b>dùng AI</b> (đi tiếp GĐ 2) hay <b>dùng giải pháp khác</b> (dừng quy trình AI).</li>
+</ul>
+
+<!-- ============ GIAI DOAN 2 ============ -->
+<h1 id="gd2">Giai đoạn 2 — Nghiên cứu &amp; đánh giá khả thi</h1>
+<h2>Mục tiêu</h2>
+<p>Khảo sát các hướng giải pháp, xây dựng <b>baseline</b> và <b>Proof of Concept (PoC)</b> để xác nhận bài toán <b>khả thi về kỹ thuật, chi phí và dữ liệu</b> trước khi cam kết xây dựng đầy đủ.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Requirement Brief đã duyệt (GĐ 1).</li>
+  <li>KPI, ràng buộc, loại bài toán.</li>
+  <li>Hiểu biết sơ bộ về dữ liệu sẵn có.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Khảo sát giải pháp &amp; state-of-the-art</b>: cách bài toán tương tự đã được giải (paper, blog, sản phẩm, thư viện); liệt kê hướng tiếp cận và ưu/nhược điểm.</li>
+  <li><b>Quyết định build vs buy</b>: <span class="tagml">[ML]</span> tự train (cần dữ liệu gán nhãn, hạ tầng, chuyên môn); <span class="tag">[LLM]</span> API có sẵn vs model mở (self-host) vs fine-tune vs RAG vs chỉ prompt engineering. Cân nhắc chi phí, kiểm soát dữ liệu, độ trễ, tùy biến, vendor lock-in.</li>
+  <li><b>Xây dựng baseline</b>: phương án đơn giản nhất làm mốc so sánh; cải tiến về sau phải vượt baseline mới đáng giá.</li>
+  <li><b>Làm PoC nhanh</b>: <span class="tagml">[ML]</span> train thử trên dữ liệu nhỏ; <span class="tag">[LLM]</span> thử vài prompt/model trên 10&ndash;50 mẫu đại diện. Mục tiêu PoC là trả lời "có khả thi đạt KPI không", không phải tối ưu hoàn chỉnh.</li>
+  <li><b>Ước lượng chi phí &amp; nguồn lực</b>: chi phí train/inference, hạ tầng, lưu trữ; <span class="tag">[LLM]</span> ước lượng token (số request &times; token vào/ra &times; đơn giá), cân nhắc caching.</li>
+  <li><b>Đánh giá rủi ro kỹ thuật &amp; dữ liệu</b>: đủ dữ liệu chất lượng không? bias/quyền riêng tư? rủi ro độ trễ, độ chính xác, khả năng giải thích.</li>
+  <li><b>Khuyến nghị Go/No-Go</b> cho giai đoạn xây dựng đầy đủ.</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>PO/BA</th><th>Data Scientist</th><th>Eng/MLOps</th><th>Security/Legal</th></tr>
+<tr><td>Khảo sát giải pháp</td><td>C</td><td>A/R</td><td>C</td><td>I</td></tr>
+<tr><td>Build vs buy</td><td>C</td><td>R</td><td>C</td><td>C</td></tr>
+<tr><td>Baseline &amp; PoC</td><td>I</td><td>A/R</td><td>C</td><td>I</td></tr>
+<tr><td>Ước lượng chi phí</td><td>C</td><td>R</td><td>C</td><td>I</td></tr>
+<tr><td>Khuyến nghị Go/No-Go</td><td>A</td><td>R</td><td>C</td><td>C</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Báo cáo nghiên cứu khả thi: các hướng, lựa chọn đề xuất + lý do.</li>
+  <li>Kết quả baseline &amp; PoC (chỉ số sơ bộ).</li>
+  <li>Ước lượng chi phí &amp; nguồn lực.</li>
+  <li>Khuyến nghị Go/No-Go.</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Đã khảo sát &ge; 2 hướng tiếp cận và so sánh.</li>
+  <li>&#9744; Đã quyết định build/buy (train, API, fine-tune, RAG, hay prompt).</li>
+  <li>&#9744; Có baseline để làm mốc so sánh.</li>
+  <li>&#9744; PoC cho thấy khả năng đạt (hoặc tiệm cận) KPI.</li>
+  <li>&#9744; Có ước lượng chi phí vận hành ([LLM] gồm chi phí token).</li>
+  <li>&#9744; Rủi ro dữ liệu/kỹ thuật được nhận diện.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>PoC chứng minh bài toán khả thi và có đường đạt KPI.</li>
+  <li>Chi phí ước lượng nằm trong ngân sách cho phép.</li>
+  <li>Có quyết định <b>Go</b> để chuyển sang chuẩn bị dữ liệu / xây dựng đầy đủ.</li>
+</ul>
+
+<!-- ============ GIAI DOAN 3 ============ -->
+<h1 id="gd3">Giai đoạn 3 — Dữ liệu</h1>
+<h2>Mục tiêu</h2>
+<p>Chuẩn bị dữ liệu đủ <b>chất lượng, đại diện và hợp pháp</b> để huấn luyện và/hoặc đánh giá model. Đây thường là giai đoạn tốn công nhất và quyết định lớn đến chất lượng cuối cùng.</p>
+<p class="note">Nguyên tắc: "Garbage in, garbage out." Chất lượng dữ liệu quan trọng hơn độ phức tạp của model.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Hướng tiếp cận đã chọn (GĐ 2).</li>
+  <li>Yêu cầu về loại dữ liệu, nhãn, khối lượng.</li>
+  <li>Ràng buộc quyền riêng tư &amp; pháp lý.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Thu thập dữ liệu</b>: xác định nguồn (DB sản xuất, log, bên thứ ba, thu thập mới); đảm bảo quyền sử dụng (license, hợp đồng, đồng thuận).</li>
+  <li><b>Gán nhãn (labeling)</b> (nếu học có giám sát): hướng dẫn gán nhãn rõ ràng, ví dụ minh họa; đo độ đồng thuận giữa người gán nhãn; <span class="tag">[LLM]</span> có thể dùng LLM gán nhãn sơ bộ rồi người kiểm tra.</li>
+  <li><b>Làm sạch &amp; tiền xử lý</b>: xử lý thiếu/trùng/ngoại lệ, chuẩn hóa; <span class="tagml">[ML]</span> feature engineering, mã hóa, chuẩn hóa thang đo; <span class="tag">[LLM]</span> làm sạch văn bản, chunking tài liệu cho RAG.</li>
+  <li><b>Kiểm tra chất lượng &amp; thiên lệch (bias)</b>: phân bố có cân bằng/đại diện không? thiên lệch theo nhóm nhạy cảm? phát hiện <b>rò rỉ dữ liệu (data leakage)</b>.</li>
+  <li><b>Tách tập dữ liệu</b>: <span class="tagml">[ML]</span> train/validation/test (vd 70/15/15); chuỗi thời gian chia theo thời gian; không rò rỉ giữa các tập; <span class="tag">[LLM]</span> xây <b>eval set</b> đại diện và golden examples, chuẩn bị dữ liệu fine-tune nếu dùng.</li>
+  <li><b>Quản trị dữ liệu (governance)</b>: ẩn danh/giả danh PII; kiểm soát truy cập; <b>versioning dữ liệu</b>; ghi data lineage và data card.</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>Data Engineer</th><th>Data Scientist</th><th>PO/BA</th><th>Security/Legal</th></tr>
+<tr><td>Thu thập &amp; pipeline</td><td>A/R</td><td>C</td><td>I</td><td>C</td></tr>
+<tr><td>Gán nhãn</td><td>C</td><td>A/R</td><td>C</td><td>I</td></tr>
+<tr><td>Làm sạch &amp; tiền xử lý</td><td>R</td><td>A/R</td><td>I</td><td>I</td></tr>
+<tr><td>Kiểm tra bias/leakage</td><td>C</td><td>A/R</td><td>I</td><td>C</td></tr>
+<tr><td>Quản trị &amp; quyền riêng tư</td><td>R</td><td>C</td><td>I</td><td>A/R</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Tập dữ liệu đã làm sạch, có phiên bản, đã tách train/val/test (hoặc eval set cho LLM).</li>
+  <li>Tài liệu mô tả dữ liệu (data card): nguồn, kích thước, phân bố, hạn chế, rủi ro bias.</li>
+  <li>Hướng dẫn gán nhãn (nếu có).</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Có quyền hợp pháp sử dụng toàn bộ dữ liệu.</li>
+  <li>&#9744; PII được xử lý theo quy định; truy cập được kiểm soát.</li>
+  <li>&#9744; Dữ liệu đại diện cho phân bố thực tế khi vận hành.</li>
+  <li>&#9744; Đã kiểm tra và xử lý bias, trùng lặp, ngoại lệ.</li>
+  <li>&#9744; Không có rò rỉ dữ liệu giữa các tập.</li>
+  <li>&#9744; [ML] đã tách train/val/test đúng cách; [LLM] có eval set &amp; golden examples.</li>
+  <li>&#9744; Dữ liệu được đánh phiên bản để tái lập được.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Có tập dữ liệu (train/eval) đạt chất lượng, có phiên bản và tài liệu mô tả.</li>
+  <li>Đã giải quyết các vấn đề quyền riêng tư/pháp lý.</li>
+  <li>Sẵn sàng cho thử nghiệm model ở GĐ 4.</li>
+</ul>
+
+<!-- ============ GIAI DOAN 4 ============ -->
+<h1 id="gd4">Giai đoạn 4 — Thử nghiệm &amp; lựa chọn model</h1>
+<h2>Mục tiêu</h2>
+<p>Thử nghiệm có hệ thống nhiều ứng viên (model/cấu hình/prompt) để chọn phương án tốt nhất theo KPI và ràng buộc, đồng thời đảm bảo <b>tái lập được (reproducibility)</b>.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Tập dữ liệu đã chuẩn bị (train/val hoặc eval set).</li>
+  <li>Baseline và kết quả PoC.</li>
+  <li>KPI, ràng buộc latency/chi phí.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Thiết lập môi trường thí nghiệm</b>: cố định seed, phiên bản dữ liệu/thư viện; thiết lập <b>theo dõi experiment</b> (MLflow, W&amp;B, hoặc bảng ghi chép có cấu trúc) lưu tham số, dữ liệu, chỉ số, artefact.</li>
+  <li><b>Thử nghiệm ứng viên</b>:
+    <ul>
+      <li><span class="tagml">[ML]</span> thử nhiều thuật toán (logistic, gradient boosting, mạng nơ-ron) từ đơn giản đến phức tạp; tinh chỉnh siêu tham số trên validation; cross-validation khi dữ liệu ít; theo dõi overfitting/underfitting.</li>
+      <li><span class="tag">[LLM]</span> so sánh model ứng viên; prompt engineering có hệ thống (few-shot, hướng dẫn rõ, định dạng đầu ra); nếu RAG: thử chunking, embedding, top-k, reranking; cân nhắc fine-tune khi prompt/RAG chưa đủ.</li>
+    </ul>
+  </li>
+  <li><b>Đo trên tập độc lập</b>: đánh giá trên validation/eval set (chưa đụng test set cuối); so với baseline và ràng buộc latency/chi phí.</li>
+  <li><b>Phân tích lỗi (error analysis)</b>: xem các trường hợp sai, phân nhóm lỗi để gợi ý cải tiến.</li>
+  <li><b>Lập shortlist</b> 1&ndash;2 ứng viên tốt nhất để đánh giá kỹ ở GĐ 5.</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>Data Scientist</th><th>ML Engineer</th><th>PO/BA</th></tr>
+<tr><td>Thiết lập theo dõi experiment</td><td>C</td><td>A/R</td><td>I</td></tr>
+<tr><td>Thử nghiệm ứng viên</td><td>A/R</td><td>C</td><td>I</td></tr>
+<tr><td>Phân tích lỗi</td><td>A/R</td><td>C</td><td>C</td></tr>
+<tr><td>Chọn shortlist</td><td>A/R</td><td>C</td><td>C</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Bảng so sánh ứng viên (chỉ số trên validation/eval, latency, chi phí).</li>
+  <li>Experiment được ghi lại (tham số, dữ liệu, kết quả, artefact model).</li>
+  <li>Shortlist ứng viên + phân tích lỗi.</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Thí nghiệm được ghi lại và tái lập được (seed, version dữ liệu/thư viện).</li>
+  <li>&#9744; Đã thử nhiều phương án và so với baseline.</li>
+  <li>&#9744; Đo trên tập độc lập, chưa dùng test set cuối.</li>
+  <li>&#9744; [ML] đã tinh chỉnh siêu tham số, kiểm soát overfitting.</li>
+  <li>&#9744; [LLM] đã thử prompt/RAG/fine-tune một cách có hệ thống.</li>
+  <li>&#9744; Có phân tích lỗi để hiểu giới hạn model.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Có 1&ndash;2 ứng viên vượt baseline và tiệm cận KPI, thỏa ràng buộc latency/chi phí.</li>
+  <li>Thí nghiệm tái lập được, sẵn sàng cho đánh giá toàn diện ở GĐ 5.</li>
+</ul>
+
+<!-- ============ GIAI DOAN 5 ============ -->
+<h1 id="gd5">Giai đoạn 5 — Đánh giá model (Evaluation)</h1>
+<h2>Mục tiêu</h2>
+<p>Đánh giá toàn diện ứng viên trên dữ liệu chưa từng thấy, theo cả <b>chỉ số kỹ thuật</b>, <b>chất lượng theo con người</b>, <b>công bằng/an toàn</b> và <b>ràng buộc vận hành</b>, để ra quyết định <b>Go/No-Go</b> có căn cứ.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Shortlist model/cấu hình (GĐ 4).</li>
+  <li>Test set độc lập / eval set (chưa dùng để tinh chỉnh).</li>
+  <li>KPI và tiêu chí thành công tối thiểu.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<h3>1. Đánh giá offline theo chỉ số kỹ thuật</h3>
+<ul>
+  <li><span class="tagml">[ML]</span> <b>Phân loại</b>: Accuracy, Precision, Recall, <b>F1</b>, ROC-AUC, PR-AUC, confusion matrix. Khi mất cân bằng, ưu tiên F1/PR-AUC hơn accuracy.</li>
+  <li><span class="tagml">[ML]</span> <b>Hồi quy</b>: MAE, RMSE, MAPE, R².</li>
+  <li><span class="tagml">[ML]</span> <b>Xếp hạng/gợi ý</b>: Precision@k, Recall@k, NDCG, MAP. Cân nhắc hiệu chỉnh xác suất (calibration).</li>
+  <li><span class="tag">[LLM]</span> chất lượng tác vụ (độ chính xác trả lời/trích xuất, tương đồng với tham chiếu); <b>faithfulness/groundedness</b> (RAG); <b>hallucination rate</b>; <b>an toàn</b> (nội dung độc hại/không phù hợp); tính ổn định khi lặp lại. Có thể dùng <b>LLM-as-a-judge</b> nhưng cần hiệu chỉnh với con người.</li>
+</ul>
+<h3>2. Đánh giá theo con người (human evaluation)</h3>
+<p>Lấy mẫu đại diện để chuyên gia/người dùng chấm theo tiêu chí (đúng, hữu ích, an toàn, phù hợp). Đặc biệt quan trọng với <span class="tag">[LLM]</span> và bài toán khó đo tự động.</p>
+<h3>3. Kiểm thử công bằng &amp; độ bền (fairness &amp; robustness)</h3>
+<p>So sánh chỉ số giữa các nhóm nhạy cảm; kiểm thử với đầu vào nhiễu/đối nghịch, dữ liệu biên, ngoài phân bố (OOD); <span class="tag">[LLM]</span> thử prompt injection, đầu vào gây hiểu nhầm.</p>
+<h3>4. Đánh giá ràng buộc vận hành</h3>
+<p>Đo latency (p50/p95/p99) và thông lượng ở tải dự kiến; chi phí mỗi request (<span class="tag">[LLM]</span> chi phí token thực tế); kích thước model, tài nguyên (CPU/GPU/RAM).</p>
+<h3>5. Tổng hợp &amp; quyết định Go/No-Go</h3>
+<p>Điền Model Evaluation Scorecard (Phụ lục B); so với baseline và tiêu chí tối thiểu; ghi nhận hạn chế; ra quyết định <b>Go / No-Go / quay lại cải tiến</b>.</p>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>Data Scientist</th><th>QA</th><th>PO/BA</th><th>Security/Legal</th></tr>
+<tr><td>Đánh giá offline</td><td>A/R</td><td>C</td><td>I</td><td>I</td></tr>
+<tr><td>Human evaluation</td><td>R</td><td>C</td><td>A</td><td>I</td></tr>
+<tr><td>Fairness &amp; robustness</td><td>A/R</td><td>C</td><td>C</td><td>C</td></tr>
+<tr><td>Đo latency/chi phí</td><td>R</td><td>C</td><td>C</td><td>I</td></tr>
+<tr><td>Quyết định Go/No-Go</td><td>R</td><td>C</td><td>A</td><td>C</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Model Evaluation Scorecard đã điền.</li>
+  <li>Báo cáo đánh giá: chỉ số, human eval, fairness/robustness, latency/chi phí.</li>
+  <li>Quyết định Go/No-Go có ghi lý do.</li>
+  <li>(Nếu Go) Model Card bản nháp (Phụ lục C).</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Đánh giá trên test/eval set độc lập, không bị rò rỉ.</li>
+  <li>&#9744; Dùng chỉ số phù hợp bài toán (không chỉ accuracy khi mất cân bằng).</li>
+  <li>&#9744; [LLM] đo faithfulness/hallucination/an toàn, có human eval.</li>
+  <li>&#9744; Đã kiểm thử công bằng giữa các nhóm và độ bền với đầu vào bất thường.</li>
+  <li>&#9744; Đã đo latency (p95/p99) và chi phí ở tải dự kiến.</li>
+  <li>&#9744; Scorecard hoàn tất, so với baseline &amp; tiêu chí tối thiểu.</li>
+  <li>&#9744; Hạn chế đã biết được ghi lại.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Model đạt hoặc vượt tiêu chí thành công tối thiểu và baseline.</li>
+  <li>Thỏa ràng buộc latency/chi phí/an toàn.</li>
+  <li>Có quyết định <b>Go</b> kèm Model Card nháp; nếu <b>No-Go</b>, quay lại GĐ 2/3/4.</li>
+</ul>
+
+<!-- ============ GIAI DOAN 6 ============ -->
+<h1 id="gd6">Giai đoạn 6 — Tích hợp vào phần mềm</h1>
+<h2>Mục tiêu</h2>
+<p>Đưa model đã duyệt thành một thành phần phần mềm <b>ổn định, có phiên bản, an toàn</b> và tích hợp vào sản phẩm với hợp đồng API rõ ràng cùng cơ chế dự phòng (fallback).</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Model đã được duyệt Go (GĐ 5) + Model Card.</li>
+  <li>Ràng buộc latency/chi phí/bảo mật.</li>
+  <li>Kiến trúc sản phẩm hiện tại.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Đóng gói model thành dịch vụ (serving)</b>: <span class="tagml">[ML]</span> đóng gói model + tiền/hậu xử lý thành service (REST/gRPC) hoặc batch job, container hóa (Docker); <span class="tag">[LLM]</span> lớp dịch vụ quản lý prompt template, RAG retriever, cấu hình tham số.</li>
+  <li><b>Định nghĩa hợp đồng API</b>: schema vào/ra rõ ràng, có versioning (vd <code>/v1/predict</code>); quy ước mã lỗi, định dạng phản hồi, giới hạn kích thước.</li>
+  <li><b>Xử lý lỗi &amp; fallback</b>: timeout, retry có kiểm soát, circuit breaker; fallback khi model lỗi/độ tin cậy thấp (giá trị mặc định, chuyển sang rule, bàn giao con người); <span class="tag">[LLM]</span> xử lý rate limit, lỗi nội dung, đầu ra sai định dạng (validate &amp; retry).</li>
+  <li><b>Quản lý phiên bản &amp; cấu hình</b>: <b>model registry</b> lưu model theo phiên bản; tách cấu hình khỏi code; quản lý secret/khóa API an toàn; <b>feature flag</b> bật/tắt mà không deploy lại.</li>
+  <li><b>Tối ưu suy luận (inference)</b>: <span class="tagml">[ML]</span> batch, quantization, caching; <span class="tag">[LLM]</span> caching theo prompt, streaming, kiểm soát độ dài đầu ra.</li>
+  <li><b>Bảo mật khi tích hợp</b>: xác thực/ủy quyền endpoint, rate limiting; <span class="tag">[LLM]</span> phòng prompt injection, lọc PII vào/ra, không log dữ liệu nhạy cảm.</li>
+  <li><b>Tích hợp UI/UX</b>: thể hiện độ tin cậy/giải thích khi phù hợp; cho phép người dùng phản hồi (feedback).</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>ML/MLOps Eng</th><th>Software Eng</th><th>Data Scientist</th><th>Security</th></tr>
+<tr><td>Đóng gói serving</td><td>A/R</td><td>C</td><td>C</td><td>I</td></tr>
+<tr><td>Hợp đồng API</td><td>R</td><td>A/R</td><td>C</td><td>I</td></tr>
+<tr><td>Fallback &amp; xử lý lỗi</td><td>R</td><td>A/R</td><td>C</td><td>I</td></tr>
+<tr><td>Model registry &amp; cấu hình</td><td>A/R</td><td>C</td><td>C</td><td>C</td></tr>
+<tr><td>Bảo mật tích hợp</td><td>C</td><td>R</td><td>I</td><td>A/R</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Dịch vụ model có phiên bản, container hóa, hợp đồng API tài liệu hóa.</li>
+  <li>Cơ chế fallback &amp; xử lý lỗi.</li>
+  <li>Cấu hình feature flag và quản lý secret.</li>
+  <li>Model đã đăng ký trong registry.</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Model được đóng gói và phục vụ qua API có version.</li>
+  <li>&#9744; Hợp đồng API (schema, mã lỗi) được tài liệu hóa.</li>
+  <li>&#9744; Có fallback khi model lỗi hoặc độ tin cậy thấp.</li>
+  <li>&#9744; Secret/khóa API được quản lý an toàn, không hardcode.</li>
+  <li>&#9744; Có feature flag để bật/tắt tính năng AI.</li>
+  <li>&#9744; [LLM] có phòng vệ prompt injection và validate đầu ra.</li>
+  <li>&#9744; Có kênh thu thập phản hồi người dùng.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Dịch vụ model chạy ổn định trong staging với hợp đồng API rõ ràng.</li>
+  <li>Có fallback, versioning và bảo mật cơ bản.</li>
+  <li>Sẵn sàng cho kiểm thử &amp; QA ở GĐ 7.</li>
+</ul>
+
+<!-- ============ GIAI DOAN 7 ============ -->
+<h1 id="gd7">Giai đoạn 7 — Kiểm thử &amp; QA</h1>
+<h2>Mục tiêu</h2>
+<p>Đảm bảo tính năng AI và toàn bộ hệ thống xung quanh model hoạt động <b>đúng, ổn định, an toàn và đủ hiệu năng</b> trước khi triển khai cho người dùng thật.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Dịch vụ model đã tích hợp trên staging (GĐ 6).</li>
+  <li>Hợp đồng API, Model Card, tiêu chí thành công.</li>
+  <li>Eval/test set và các kịch bản nghiệp vụ.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Kiểm thử chức năng</b>: unit test cho tiền/hậu xử lý và logic nghiệp vụ; integration test luồng end-to-end (request &rarr; model &rarr; phản hồi &rarr; UI); kiểm thử fallback (mô phỏng model lỗi/timeout).</li>
+  <li><b>Kiểm thử dữ liệu biên &amp; bất thường</b>: đầu vào rỗng, quá dài, sai định dạng, ký tự đặc biệt, đa ngôn ngữ; trường hợp ngoài phân bố (OOD).</li>
+  <li><b>Kiểm thử chất lượng model trong sản phẩm</b>: chạy lại bộ eval trên dịch vụ đã tích hợp để xác nhận chỉ số không suy giảm so với GĐ 5; <b>regression test cho AI</b> với golden examples.</li>
+  <li><b>An toàn &amp; bảo mật</b>: <span class="tag">[LLM]</span> <b>red-teaming</b> (prompt injection, jailbreak, dụ rò rỉ dữ liệu/khóa, nội dung độc hại); kiểm thử xác thực/ủy quyền, rate limiting, rò rỉ PII trong log/phản hồi.</li>
+  <li><b>Kiểm thử hiệu năng &amp; tải</b>: load test ở tải dự kiến và đỉnh; đo latency p95/p99 và tỉ lệ lỗi; kiểm tra hành vi khi quá tải (degradation, fallback, hàng đợi); <span class="tag">[LLM]</span> ứng xử với rate limit nhà cung cấp.</li>
+  <li><b>Kiểm thử chấp nhận (UAT)</b>: người dùng/PO xác nhận đáp ứng yêu cầu nghiệp vụ và KPI.</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>QA</th><th>Software Eng</th><th>Data Scientist</th><th>Security</th></tr>
+<tr><td>Functional &amp; integration test</td><td>A/R</td><td>C</td><td>I</td><td>I</td></tr>
+<tr><td>Kiểm thử biên &amp; regression AI</td><td>A/R</td><td>C</td><td>C</td><td>I</td></tr>
+<tr><td>Red-teaming &amp; bảo mật</td><td>C</td><td>C</td><td>C</td><td>A/R</td></tr>
+<tr><td>Load/performance test</td><td>R</td><td>A/R</td><td>I</td><td>I</td></tr>
+<tr><td>UAT</td><td>R</td><td>I</td><td>I</td><td>I</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Báo cáo kiểm thử: functional, biên, regression, bảo mật, hiệu năng.</li>
+  <li>Bộ test tự động (gồm regression AI) đưa vào CI.</li>
+  <li>Danh sách lỗi đã xử lý hoặc chấp nhận rủi ro.</li>
+  <li>Kết quả UAT được ký duyệt.</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Unit/integration test phủ luồng chính và fallback.</li>
+  <li>&#9744; Đã kiểm thử dữ liệu biên/bất thường.</li>
+  <li>&#9744; Chỉ số model trên dịch vụ tích hợp khớp với GĐ 5.</li>
+  <li>&#9744; Có regression test với golden examples trong CI.</li>
+  <li>&#9744; [LLM] đã red-teaming prompt injection/jailbreak/nội dung độc hại.</li>
+  <li>&#9744; Load test đạt ngưỡng latency/tỉ lệ lỗi ở tải đỉnh.</li>
+  <li>&#9744; UAT được PO/người dùng chấp nhận.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Không còn lỗi nghiêm trọng (blocker/critical) chưa xử lý.</li>
+  <li>Đạt ngưỡng chất lượng, an toàn và hiệu năng đã định.</li>
+  <li>UAT được duyệt &rarr; sẵn sàng triển khai ở GĐ 8.</li>
+</ul>
+
+<!-- ============ GIAI DOAN 8 ============ -->
+<h1 id="gd8">Giai đoạn 8 — Triển khai (Deploy)</h1>
+<h2>Mục tiêu</h2>
+<p>Đưa tính năng AI ra môi trường sản xuất một cách <b>an toàn, có kiểm soát rủi ro</b> và <b>có khả năng quay lui (rollback)</b> nhanh, đồng thời đo lường tác động thực tế lên KPI.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Hệ thống đã qua QA &amp; UAT (GĐ 7).</li>
+  <li>Model Card hoàn chỉnh.</li>
+  <li>Hạ tầng sản xuất &amp; kế hoạch giám sát (GĐ 9 đã chuẩn bị).</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Chuẩn bị hạ tầng sản xuất</b>: cấu hình tài nguyên (CPU/GPU/RAM), autoscaling, quota; cấu hình môi trường, secret theo prod; hoàn tất Deployment Checklist (Phụ lục D).</li>
+  <li><b>Chọn chiến lược release</b>: <b>Shadow/dark launch</b> (chạy song song, không ảnh hưởng người dùng), <b>Canary</b> (mở dần cho % nhỏ), <b>Blue-Green</b> (hai phiên bản song song, chuyển/rollback nhanh), <b>A/B test</b> (so model mới với baseline trên KPI, có ý nghĩa thống kê).</li>
+  <li><b>Triển khai theo từng bước (rollout)</b>: bật qua feature flag cho nhóm nhỏ &rarr; quan sát &rarr; mở rộng dần; theo dõi chỉ số kỹ thuật (latency, lỗi) và nghiệp vụ (KPI).</li>
+  <li><b>Phê duyệt &amp; truyền thông</b>: có release approval; thông báo các bên; chuẩn bị tài liệu hỗ trợ/CSKH.</li>
+  <li><b>Sẵn sàng rollback</b>: định nghĩa điều kiện kích hoạt (ngưỡng lỗi, sụt KPI); quy trình rollback đã thử.</li>
+  <li><b>Đo tác động &amp; kết luận</b>: sau khi mở 100%, đánh giá kết quả A/B và tác động KPI; ghi nhận và quyết định giữ/điều chỉnh.</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>MLOps/Platform</th><th>SRE</th><th>PO/BA</th><th>Data Scientist</th></tr>
+<tr><td>Chuẩn bị hạ tầng</td><td>A/R</td><td>C</td><td>I</td><td>I</td></tr>
+<tr><td>Chọn chiến lược release</td><td>R</td><td>C</td><td>A</td><td>C</td></tr>
+<tr><td>Rollout &amp; theo dõi</td><td>A/R</td><td>R</td><td>C</td><td>C</td></tr>
+<tr><td>Phê duyệt release</td><td>C</td><td>C</td><td>A/R</td><td>I</td></tr>
+<tr><td>Rollback</td><td>A/R</td><td>R</td><td>I</td><td>C</td></tr>
+<tr><td>Đánh giá A/B &amp; KPI</td><td>C</td><td>I</td><td>A</td><td>R</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Tính năng AI chạy trên sản xuất ở quy mô mục tiêu.</li>
+  <li>Deployment Checklist hoàn tất; quy trình rollback đã kiểm chứng.</li>
+  <li>Kết quả A/B test và tác động KPI.</li>
+  <li>Bản ghi release (phiên bản model, thời điểm, người duyệt).</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Deployment Checklist hoàn tất và được duyệt.</li>
+  <li>&#9744; Chiến lược release (shadow/canary/blue-green/A-B) được chọn và cấu hình.</li>
+  <li>&#9744; Giám sát &amp; cảnh báo đã bật trước khi mở traffic.</li>
+  <li>&#9744; Điều kiện và quy trình rollback rõ ràng, đã thử.</li>
+  <li>&#9744; Có phê duyệt release và đã thông báo các bên.</li>
+  <li>&#9744; Đo được tác động KPI sau khi mở rộng.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Tính năng chạy ổn định ở sản xuất, chỉ số kỹ thuật &amp; nghiệp vụ trong ngưỡng.</li>
+  <li>Rollback sẵn sàng và đã kiểm chứng.</li>
+  <li>Chuyển sang vận hành &amp; giám sát liên tục (GĐ 9).</li>
+</ul>
+
+<!-- ============ GIAI DOAN 9 ============ -->
+<h1 id="gd9">Giai đoạn 9 — Giám sát &amp; vận hành (MLOps/LLMOps)</h1>
+<h2>Mục tiêu</h2>
+<p>Đảm bảo model duy trì <b>chất lượng, độ tin cậy, an toàn và chi phí hợp lý</b> theo thời gian khi vận hành thực tế; phát hiện sớm suy giảm (drift) và sự cố để xử lý kịp thời.</p>
+<p class="note">Khác biệt với phần mềm thông thường: chất lượng model suy giảm theo thời gian do dữ liệu/thế giới thay đổi, dù code không đổi.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Tính năng AI đã chạy sản xuất (GĐ 8).</li>
+  <li>Monitoring Runbook đã thiết lập (Phụ lục E).</li>
+  <li>Ngưỡng KPI và SLO.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Giám sát hệ thống (operational)</b>: latency (p50/p95/p99), throughput, error rate, uptime/SLO; tài nguyên; <span class="tag">[LLM]</span> số token, rate limit, lỗi nhà cung cấp.</li>
+  <li><b>Giám sát chất lượng model</b>: theo dõi chỉ số khi có nhãn thực tế (có thể trễ); khi chưa có nhãn dùng proxy (tỉ lệ chấp nhận, tỉ lệ chuyển sang con người, phản hồi tiêu cực); <span class="tag">[LLM]</span> theo dõi hallucination/an toàn qua lấy mẫu + chấm, tỉ lệ phản hồi sai định dạng.</li>
+  <li><b>Phát hiện drift</b>: <b>data drift</b> (phân bố đầu vào đổi), <b>concept drift</b> (quan hệ vào&ndash;nhãn đổi), <b>prediction drift</b> (phân bố đầu ra bất thường); đặt ngưỡng cảnh báo cho từng loại.</li>
+  <li><b>Giám sát chi phí</b>: chi phí hạ tầng/inference; <span class="tag">[LLM]</span> chi phí token theo ngày/tuần, phát hiện tăng bất thường.</li>
+  <li><b>Logging, truy vết &amp; phản hồi</b>: log request/response (đã ẩn PII), tracing; thu thập phản hồi người dùng làm tín hiệu chất lượng và dữ liệu cải tiến.</li>
+  <li><b>Cảnh báo &amp; on-call</b>: alert theo ngưỡng (lỗi, latency, drift, chi phí, sụt KPI); phân công on-call và runbook xử lý sự cố (gồm khi nào rollback).</li>
+  <li><b>Vòng phản hồi dữ liệu</b>: lưu trường hợp khó/sai để bổ sung vào dữ liệu/eval cho lần cải tiến sau (chú ý quyền riêng tư).</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>MLOps</th><th>SRE/On-call</th><th>Data Scientist</th><th>PO/BA</th></tr>
+<tr><td>Giám sát hệ thống</td><td>A/R</td><td>R</td><td>I</td><td>I</td></tr>
+<tr><td>Giám sát chất lượng &amp; drift</td><td>R</td><td>C</td><td>A/R</td><td>C</td></tr>
+<tr><td>Giám sát chi phí</td><td>A/R</td><td>C</td><td>C</td><td>C</td></tr>
+<tr><td>Cảnh báo &amp; on-call</td><td>A/R</td><td>R</td><td>C</td><td>I</td></tr>
+<tr><td>Xử lý sự cố</td><td>R</td><td>A/R</td><td>C</td><td>I</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Dashboard giám sát (hệ thống + chất lượng + chi phí).</li>
+  <li>Cảnh báo theo ngưỡng và phân công on-call.</li>
+  <li>Monitoring Runbook đang vận hành; nhật ký sự cố.</li>
+  <li>Kho dữ liệu trường hợp khó/sai phục vụ cải tiến.</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Dashboard theo dõi latency/lỗi/throughput/chi phí.</li>
+  <li>&#9744; Theo dõi chất lượng model (trực tiếp hoặc proxy).</li>
+  <li>&#9744; Phát hiện data/concept/prediction drift với ngưỡng cảnh báo.</li>
+  <li>&#9744; [LLM] giám sát token, an toàn, hallucination qua lấy mẫu.</li>
+  <li>&#9744; Logging ẩn PII, có tracing.</li>
+  <li>&#9744; Cảnh báo và on-call được thiết lập; runbook sẵn sàng.</li>
+  <li>&#9744; Có vòng thu thập dữ liệu/phản hồi để cải tiến.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Hệ thống giám sát đầy đủ, cảnh báo hoạt động, on-call sẵn sàng.</li>
+  <li>Có dữ liệu vận hành để đánh giá nhu cầu cải tiến (chuyển GĐ 10 khi cần).</li>
+</ul>
+
+<!-- ============ GIAI DOAN 10 ============ -->
+<h1 id="gd10">Giai đoạn 10 — Cải tiến lặp (Iteration)</h1>
+<h2>Mục tiêu</h2>
+<p>Liên tục cải thiện model và tính năng dựa trên dữ liệu vận hành và phản hồi, duy trì chất lượng trước sự thay đổi của dữ liệu/thế giới, và kiểm soát nợ kỹ thuật.</p>
+<h2>Đầu vào</h2>
+<ul>
+  <li>Dữ liệu giám sát, cảnh báo drift, phản hồi người dùng (GĐ 9).</li>
+  <li>Trường hợp khó/sai đã thu thập.</li>
+  <li>KPI thực tế so với mục tiêu.</li>
+</ul>
+<h2>Hoạt động chi tiết</h2>
+<ol>
+  <li><b>Phân tích &amp; ưu tiên cải tiến</b>: xác định nguyên nhân suy giảm/lỗi (drift, dữ liệu mới, thay đổi nghiệp vụ); ưu tiên theo tác động tới KPI và chi phí.</li>
+  <li><b>Cập nhật dữ liệu &amp; retrain/refresh</b>: <span class="tagml">[ML]</span> retrain với dữ liệu mới (định kỳ hoặc theo trigger drift), bổ sung trường hợp khó; <span class="tag">[LLM]</span> cập nhật prompt, làm mới kho tri thức RAG, hoặc fine-tune lại; cập nhật khi nhà cung cấp đổi phiên bản model.</li>
+  <li><b>Đánh giá lại trước khi phát hành</b>: chạy lại quy trình GĐ 5; <b>so sánh với phiên bản đang chạy</b> để tránh hồi quy; cập nhật Model Card và scorecard.</li>
+  <li><b>Phát hành phiên bản mới</b>: theo chiến lược release an toàn ở GĐ 8 (canary/A-B/shadow) + rollback.</li>
+  <li><b>Quản lý phiên bản &amp; nợ kỹ thuật</b>: versioning model/dữ liệu/prompt, ghi changelog; dọn dẹp model/cờ tính năng cũ; cập nhật thư viện và vá lỗ hổng; rà soát chi phí/hiệu quả, cân nhắc gỡ bỏ tính năng nếu hết giá trị.</li>
+  <li><b>Khép vòng quản trị</b>: định kỳ rà soát rủi ro, công bằng, tuân thủ (đặc biệt khi dữ liệu/luật thay đổi); lưu bài học và cập nhật chính tài liệu quy trình.</li>
+</ol>
+<h2>Vai trò (RACI)</h2>
+<table>
+<tr><th>Hoạt động</th><th>Data Scientist</th><th>MLOps</th><th>PO/BA</th><th>Security/Legal</th></tr>
+<tr><td>Phân tích &amp; ưu tiên</td><td>R</td><td>C</td><td>A</td><td>I</td></tr>
+<tr><td>Retrain/refresh</td><td>A/R</td><td>C</td><td>I</td><td>I</td></tr>
+<tr><td>Đánh giá lại &amp; chống hồi quy</td><td>A/R</td><td>C</td><td>C</td><td>I</td></tr>
+<tr><td>Phát hành phiên bản mới</td><td>C</td><td>A/R</td><td>C</td><td>I</td></tr>
+<tr><td>Quản lý nợ kỹ thuật</td><td>C</td><td>A/R</td><td>I</td><td>C</td></tr>
+<tr><td>Rà soát rủi ro/tuân thủ</td><td>C</td><td>I</td><td>C</td><td>A/R</td></tr>
+</table>
+<h2>Đầu ra</h2>
+<ul>
+  <li>Phiên bản model/tính năng cải tiến đã đánh giá và phát hành (hoặc quyết định giữ nguyên).</li>
+  <li>Model Card &amp; scorecard cập nhật; changelog phiên bản.</li>
+  <li>Lịch retrain/refresh và tiêu chí trigger.</li>
+  <li>Cập nhật bài học vào quy trình.</li>
+</ul>
+<h2>Checklist</h2>
+<ul>
+  <li>&#9744; Đã phân tích nguyên nhân và ưu tiên cải tiến theo tác động.</li>
+  <li>&#9744; Phiên bản mới được đánh giá lại như GĐ 5.</li>
+  <li>&#9744; Đã so sánh và xác nhận không hồi quy so với bản đang chạy.</li>
+  <li>&#9744; Phát hành theo chiến lược an toàn, có rollback.</li>
+  <li>&#9744; Model/dữ liệu/prompt được đánh phiên bản, có changelog.</li>
+  <li>&#9744; Rủi ro/tuân thủ được rà soát định kỳ.</li>
+</ul>
+<h2>Tiêu chí qua cổng (Gate)</h2>
+<ul>
+  <li>Mỗi vòng cải tiến phải vượt hoặc bằng phiên bản hiện tại theo KPI và an toàn mới được thay thế.</li>
+  <li>Vòng lặp được duy trì: dữ liệu vận hành &rarr; cải tiến &rarr; đánh giá &rarr; phát hành &rarr; giám sát.</li>
+</ul>
+
+<!-- ============ PHU LUC ============ -->
+<h1 id="phuluc">PHỤ LỤC — Bộ biểu mẫu chuẩn</h1>
+<p>Phần phụ lục cung cấp 6 biểu mẫu có thể sao chép và điền trực tiếp trong từng giai đoạn của quy trình.</p>
+
+<h2 id="pl1">Phụ lục A — Requirement Brief (Biểu mẫu yêu cầu dự án AI)</h2>
+<p><i>Điền ở Giai đoạn 1. Mục tiêu: chốt vấn đề, KPI và ràng buộc trước khi xây dựng.</i></p>
+<h3>1. Thông tin chung</h3>
+<ul><li>Tên dự án/tính năng:</li><li>Người yêu cầu (stakeholder):</li><li>Product Owner:</li><li>Ngày tạo / phiên bản:</li></ul>
+<h3>2. Vấn đề nghiệp vụ</h3>
+<ul><li>Mô tả vấn đề cần giải quyết:</li><li>Người dùng / đối tượng thụ hưởng:</li><li>Hiện tại đang xử lý thế nào (baseline):</li><li>Chi phí khi làm sai / không làm gì:</li></ul>
+<h3>3. Mục tiêu &amp; KPI</h3>
+<table>
+<tr><th>Mục tiêu nghiệp vụ</th><th>Chỉ số kỹ thuật</th><th>Giá trị hiện tại</th><th>Mục tiêu</th><th>Ngưỡng tối thiểu để deploy</th></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>4. Phân loại bài toán</h3>
+<ul>
+<li>&#9744; [ML] Phân loại &nbsp; &#9744; Hồi quy &nbsp; &#9744; Xếp hạng/Gợi ý &nbsp; &#9744; Phát hiện bất thường &nbsp; &#9744; Dự báo chuỗi thời gian</li>
+<li>&#9744; [LLM] Sinh văn bản &nbsp; &#9744; Hỏi đáp/RAG &nbsp; &#9744; Tóm tắt &nbsp; &#9744; Trích xuất &nbsp; &#9744; Phân loại bằng prompt &nbsp; &#9744; Agent</li>
+</ul>
+<h3>5. Ràng buộc phi chức năng</h3>
+<table>
+<tr><th>Ràng buộc</th><th>Yêu cầu</th></tr>
+<tr><td>Độ trễ (latency) tối đa</td><td>&nbsp;</td></tr>
+<tr><td>Khối lượng (req/ngày, đỉnh tải)</td><td>&nbsp;</td></tr>
+<tr><td>Ngân sách / chi phí vận hành</td><td>&nbsp;</td></tr>
+<tr><td>Bảo mật &amp; quyền riêng tư (PII, nơi xử lý)</td><td>&nbsp;</td></tr>
+<tr><td>Pháp lý / tuân thủ</td><td>&nbsp;</td></tr>
+<tr><td>Yêu cầu giải thích được (explainability)</td><td>&nbsp;</td></tr>
+</table>
+<h3>6. Dữ liệu (sơ bộ)</h3>
+<ul><li>Nguồn dữ liệu sẵn có:</li><li>Có nhãn không / cần gán nhãn không:</li><li>Quyền sử dụng dữ liệu:</li></ul>
+<h3>7. Rủi ro sơ bộ</h3>
+<ul><li>Tác hại nếu model sai:</li><li>Nhóm bị ảnh hưởng / rủi ro bias:</li><li>Mức độ tự động hóa quyết định:</li></ul>
+<h3>8. Phạm vi (scope)</h3>
+<ul><li>Trong phạm vi (MVP):</li><li>Ngoài phạm vi:</li></ul>
+<h3>9. Phê duyệt</h3>
+<ul><li>&#9744; Stakeholder duyệt vấn đề &amp; KPI</li><li>&#9744; Quyết định: dùng AI / dùng giải pháp khác</li><li>Người duyệt / ngày:</li></ul>
+
+<h2 id="pl2">Phụ lục B — Model Evaluation Scorecard</h2>
+<p><i>Điền ở Giai đoạn 5 để chấm điểm và ra quyết định Go/No-Go. Dùng phần [ML] hoặc [LLM] phù hợp.</i></p>
+<h3>1. Thông tin</h3>
+<ul><li>Tên model / phiên bản:</li><li>Người đánh giá / ngày:</li><li>Tập dữ liệu đánh giá (phiên bản):</li><li>Baseline để so sánh:</li></ul>
+<h3>2A. Chỉ số kỹ thuật — [ML] Phân loại</h3>
+<table>
+<tr><th>Chỉ số</th><th>Baseline</th><th>Model</th><th>Ngưỡng tối thiểu</th><th>Đạt?</th></tr>
+<tr><td>Accuracy</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Precision</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Recall</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>F1</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>ROC-AUC / PR-AUC</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>2A. Chỉ số kỹ thuật — [ML] Hồi quy</h3>
+<table>
+<tr><th>Chỉ số</th><th>Baseline</th><th>Model</th><th>Ngưỡng</th><th>Đạt?</th></tr>
+<tr><td>MAE</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>RMSE</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>R²</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>2B. Chỉ số chất lượng — [LLM]</h3>
+<table>
+<tr><th>Chỉ số</th><th>Baseline</th><th>Model</th><th>Ngưỡng</th><th>Đạt?</th></tr>
+<tr><td>Độ chính xác tác vụ</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Faithfulness / groundedness (RAG)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Hallucination rate (thấp hơn tốt hơn)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Tỉ lệ nội dung không an toàn (thấp hơn tốt hơn)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Tỉ lệ đúng định dạng đầu ra</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Độ nhất quán khi lặp lại</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>3. Đánh giá theo con người</h3>
+<table>
+<tr><th>Tiêu chí</th><th>Cỡ mẫu</th><th>Điểm TB</th><th>Ngưỡng</th><th>Đạt?</th></tr>
+<tr><td>Đúng / chính xác</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Hữu ích</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>An toàn / phù hợp</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>4. Công bằng &amp; độ bền</h3>
+<table>
+<tr><th>Hạng mục</th><th>Kết quả</th><th>Đạt?</th></tr>
+<tr><td>Chênh lệch chỉ số giữa các nhóm nhạy cảm</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Độ bền với đầu vào nhiễu/biên/OOD</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>[LLM] Chống prompt injection</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>5. Ràng buộc vận hành</h3>
+<table>
+<tr><th>Hạng mục</th><th>Đo được</th><th>Yêu cầu</th><th>Đạt?</th></tr>
+<tr><td>Latency p95 / p99</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Thông lượng (req/s)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Chi phí mỗi request ([LLM]: token)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Tài nguyên (CPU/GPU/RAM)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>6. Hạn chế đã biết</h3>
+<p>&nbsp;</p>
+<h3>7. Quyết định</h3>
+<ul>
+<li>&#9744; <b>Go</b> — đạt tiêu chí, tiến hành tích hợp</li>
+<li>&#9744; <b>No-Go</b> — quay lại cải tiến (ghi rõ hạng mục chưa đạt)</li>
+<li>&#9744; <b>Go có điều kiện</b> — kèm biện pháp giảm thiểu rủi ro</li>
+<li>Lý do / điều kiện:</li>
+<li>Người duyệt (Accountable) / ngày:</li>
+</ul>
+
+<h2 id="pl3">Phụ lục C — Model Card</h2>
+<p><i>Tài liệu hóa model trước khi deploy (GĐ 5&ndash;6) và cập nhật mỗi phiên bản.</i></p>
+<h3>1. Thông tin model</h3>
+<ul><li>Tên / phiên bản:</li><li>Loại: [ML] thuật toán / [LLM] model nền + (prompt/RAG/fine-tune):</li><li>Chủ sở hữu (team/người):</li><li>Ngày tạo / cập nhật:</li><li>Liên kết experiment / registry:</li></ul>
+<h3>2. Mục đích sử dụng</h3>
+<ul><li>Bài toán giải quyết:</li><li>Người dùng dự kiến:</li><li>Cách dùng đúng:</li><li>Cách dùng KHÔNG nên (out-of-scope):</li></ul>
+<h3>3. Dữ liệu</h3>
+<ul><li>Dữ liệu huấn luyện (nguồn, kích thước, thời gian, phiên bản):</li><li>Dữ liệu đánh giá:</li><li>Tiền xử lý chính:</li><li>Hạn chế dữ liệu đã biết (bias, độ phủ):</li></ul>
+<h3>4. Hiệu năng</h3>
+<ul><li>Chỉ số chính (tham chiếu scorecard):</li><li>Hiệu năng theo nhóm/phân khúc:</li><li>Latency / chi phí:</li></ul>
+<h3>5. Giới hạn &amp; rủi ro</h3>
+<ul><li>Trường hợp model hoạt động kém:</li><li>Rủi ro an toàn / công bằng / pháp lý:</li><li>Biện pháp giảm thiểu (fallback, kiểm soát):</li></ul>
+<h3>6. Vận hành</h3>
+<ul><li>Yêu cầu hạ tầng:</li><li>Phụ thuộc (thư viện / nhà cung cấp API):</li><li>Giám sát &amp; cảnh báo liên quan:</li><li>Kế hoạch retrain/refresh:</li></ul>
+<h3>7. Tuân thủ</h3>
+<ul><li>Xử lý PII / quyền riêng tư:</li><li>Phê duyệt pháp lý/compliance (nếu cần):</li></ul>
+
+<h2 id="pl4">Phụ lục D — Deployment Checklist</h2>
+<p><i>Hoàn tất ở Giai đoạn 8. Đánh dấu trước/trong/sau khi deploy.</i></p>
+<h3>Thông tin release</h3>
+<ul><li>Model / phiên bản:</li><li>Môi trường: staging / production</li><li>Chiến lược release: shadow / canary / blue-green / A-B</li><li>Người phụ trách / người duyệt:</li><li>Ngày &amp; giờ dự kiến:</li></ul>
+<h3>Trước khi deploy (Pre-deploy)</h3>
+<ul>
+<li>&#9744; QA &amp; UAT đã được duyệt (GĐ 7).</li>
+<li>&#9744; Model Card hoàn chỉnh.</li>
+<li>&#9744; Scorecard đạt tiêu chí, có quyết định Go.</li>
+<li>&#9744; Hạ tầng prod sẵn sàng (tài nguyên, autoscaling, quota).</li>
+<li>&#9744; Secret/khóa API cấu hình an toàn theo môi trường.</li>
+<li>&#9744; Feature flag sẵn sàng để bật/tắt nhanh.</li>
+<li>&#9744; Giám sát &amp; cảnh báo (GĐ 9) đã bật.</li>
+<li>&#9744; Điều kiện rollback được định nghĩa; quy trình rollback đã thử.</li>
+<li>&#9744; Đã thông báo các bên liên quan / CSKH.</li>
+<li>&#9744; Backup / phiên bản trước được giữ để quay lui.</li>
+</ul>
+<h3>Trong khi deploy (During)</h3>
+<ul>
+<li>&#9744; Bật cho nhóm nhỏ (shadow/canary %) trước.</li>
+<li>&#9744; Theo dõi latency, tỉ lệ lỗi, log trong thời gian thực.</li>
+<li>&#9744; Theo dõi KPI nghiệp vụ / kết quả A-B.</li>
+<li>&#9744; Tăng dần traffic theo kế hoạch khi ổn định.</li>
+</ul>
+<h3>Sau khi deploy (Post-deploy)</h3>
+<ul>
+<li>&#9744; Xác nhận chỉ số kỹ thuật &amp; nghiệp vụ trong ngưỡng.</li>
+<li>&#9744; Ghi nhận kết quả A/B và tác động KPI.</li>
+<li>&#9744; Cập nhật bản ghi release (changelog, phiên bản, người duyệt).</li>
+<li>&#9744; Đóng hoặc theo dõi các vấn đề phát sinh.</li>
+</ul>
+<h3>Kế hoạch Rollback</h3>
+<ul><li>Điều kiện kích hoạt (ngưỡng lỗi / sụt KPI):</li><li>Cách rollback (tắt feature flag / chuyển phiên bản):</li><li>Người quyết định rollback:</li><li>Thời gian rollback mục tiêu:</li></ul>
+
+<h2 id="pl5">Phụ lục E — Monitoring Runbook</h2>
+<p><i>Thiết lập ở Giai đoạn 9. Cẩm nang giám sát và xử lý sự cố cho tính năng AI.</i></p>
+<h3>1. Thông tin</h3>
+<ul><li>Tính năng / model &amp; phiên bản:</li><li>Chủ sở hữu / đội on-call:</li><li>Dashboard (link):</li><li>Kênh cảnh báo (link):</li></ul>
+<h3>2. Chỉ số &amp; ngưỡng cảnh báo</h3>
+<table>
+<tr><th>Nhóm</th><th>Chỉ số</th><th>Ngưỡng cảnh báo</th><th>Mức (warning/critical)</th><th>Hành động</th></tr>
+<tr><td>Hệ thống</td><td>Latency p95</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Hệ thống</td><td>Tỉ lệ lỗi (error rate)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Hệ thống</td><td>Uptime / SLO</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Chất lượng</td><td>Chỉ số chính / proxy</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Chất lượng</td><td>[LLM] Hallucination / nội dung không an toàn</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Drift</td><td>Data drift</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Drift</td><td>Prediction drift</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Chi phí</td><td>Chi phí/ngày ([LLM]: token)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>3. Quy trình xử lý sự cố</h3>
+<ol>
+<li>Xác nhận cảnh báo — kiểm tra dashboard, phạm vi ảnh hưởng.</li>
+<li>Phân loại mức độ — warning theo dõi tiếp; critical xử lý ngay.</li>
+<li>Giảm thiểu nhanh — bật fallback / giảm traffic / rollback nếu vượt ngưỡng.</li>
+<li>Chẩn đoán nguyên nhân — log, tracing, thay đổi gần đây, drift, lỗi nhà cung cấp.</li>
+<li>Khắc phục — sửa cấu hình/prompt, chuyển phiên bản, hoặc lên kế hoạch retrain.</li>
+<li>Ghi nhận &amp; hậu kiểm (postmortem) — nguyên nhân gốc, hành động phòng ngừa.</li>
+</ol>
+<h3>4. Kịch bản thường gặp</h3>
+<table>
+<tr><th>Triệu chứng</th><th>Nguyên nhân khả dĩ</th><th>Xử lý</th></tr>
+<tr><td>Latency tăng đột biến</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Tỉ lệ lỗi tăng</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Chất lượng/độ chính xác giảm dần</td><td>Drift / dữ liệu thay đổi</td><td>Điều tra drift &rarr; lên lịch retrain</td></tr>
+<tr><td>Chi phí token tăng bất thường</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>[LLM] Tăng nội dung sai/độc hại</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>5. Liên hệ &amp; leo thang (escalation)</h3>
+<ul><li>On-call cấp 1:</li><li>Leo thang cấp 2 / chủ sở hữu model:</li><li>Liên hệ nhà cung cấp (nếu dùng API):</li></ul>
+<h3>6. Vòng phản hồi</h3>
+<ul><li>Nơi lưu trường hợp khó/sai để cải tiến:</li><li>Tần suất rà soát mẫu chất lượng:</li></ul>
+
+<h2 id="pl6">Phụ lục F — Risk Assessment (Đánh giá rủi ro AI)</h2>
+<p><i>Bắt đầu ở Giai đoạn 1 và rà soát lại ở Giai đoạn 5 và định kỳ khi vận hành.</i></p>
+<h3>1. Thông tin</h3>
+<ul><li>Dự án / tính năng:</li><li>Người đánh giá / ngày:</li><li>Mức độ tự động hóa quyết định: gợi ý cho người / hỗ trợ / tự động hoàn toàn</li></ul>
+<h3>2. Ma trận rủi ro</h3>
+<p><i>Mức = Khả năng xảy ra (Thấp/Trung/Cao) &times; Mức tác động (Thấp/Trung/Cao).</i></p>
+<table>
+<tr><th>#</th><th>Rủi ro</th><th>Loại</th><th>Khả năng</th><th>Tác động</th><th>Mức</th><th>Biện pháp giảm thiểu</th><th>Người phụ trách</th></tr>
+<tr><td>1</td><td>&nbsp;</td><td>An toàn</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>2</td><td>&nbsp;</td><td>Công bằng / bias</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>3</td><td>&nbsp;</td><td>Quyền riêng tư / PII</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>4</td><td>&nbsp;</td><td>Bảo mật (rò rỉ, lạm dụng)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>5</td><td>&nbsp;</td><td>Pháp lý / tuân thủ</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>6</td><td>&nbsp;</td><td>Chất lượng / độ chính xác</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>7</td><td>&nbsp;</td><td>Vận hành / phụ thuộc bên thứ ba</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>8</td><td>&nbsp;</td><td>Chi phí</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>3. Các nhóm rủi ro cần xem xét</h3>
+<ul>
+<li><b>An toàn</b>: tác hại tới người dùng/bên thứ ba khi model sai.</li>
+<li><b>Công bằng &amp; bias</b>: chênh lệch tác động giữa các nhóm; dữ liệu thiên lệch.</li>
+<li><b>Quyền riêng tư</b>: xử lý PII, lưu trữ, đồng thuận, ẩn danh.</li>
+<li><b>Bảo mật</b>: rò rỉ dữ liệu/khóa, lạm dụng; [LLM] prompt injection, jailbreak.</li>
+<li><b>Pháp lý / tuân thủ</b>: quy định ngành, yêu cầu giải thích được, lưu vết.</li>
+<li><b>Phụ thuộc bên thứ ba</b>: thay đổi/ngừng dịch vụ, rate limit, đổi phiên bản model.</li>
+</ul>
+<h3>4. Biện pháp kiểm soát chung</h3>
+<ul>
+<li>&#9744; Fallback / con người giám sát ở quyết định rủi ro cao.</li>
+<li>&#9744; Lọc &amp; ẩn PII đầu vào/đầu ra; kiểm soát truy cập.</li>
+<li>&#9744; [LLM] Bộ lọc nội dung và phòng vệ prompt injection.</li>
+<li>&#9744; Giám sát chất lượng/an toàn và cảnh báo.</li>
+<li>&#9744; Tài liệu hóa &amp; phê duyệt với rủi ro cao.</li>
+</ul>
+<h3>5. Kết luận</h3>
+<ul><li>Rủi ro tồn dư chấp nhận được? Có / Không</li><li>Điều kiện kèm theo:</li><li>Người phê duyệt (Accountable) / ngày:</li></ul>
+
+<p style="margin-top:40px; color:#888; font-size:9pt; text-align:center;">— Hết tài liệu —</p>
+
+</body>
+</html>
