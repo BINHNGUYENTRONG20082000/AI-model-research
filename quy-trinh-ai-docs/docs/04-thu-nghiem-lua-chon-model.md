@@ -17,6 +17,11 @@ Thử nghiệm có hệ thống nhiều ứng viên (model/cấu hình/prompt) �
      - Thử nhiều thuật toán (ví dụ: hồi quy logistic, gradient boosting, mạng nơ-ron) từ đơn giản đến phức tạp.
      - Tinh chỉnh siêu tham số (hyperparameter tuning) trên tập validation; dùng cross-validation khi dữ liệu ít.
      - Theo dõi overfitting/underfitting.
+   - [DL]
+     - Chọn kiến trúc mạng phù hợp tác vụ (CNN cho ảnh, RNN/LSTM cho chuỗi, Transformer cho NLP/đa phương thức).
+     - Ưu tiên **transfer learning / fine-tune** mô hình tiền huấn luyện thay vì train từ đầu khi dữ liệu hạn chế.
+     - Tinh chỉnh learning rate, batch size, số epoch, optimizer; dùng **regularization** (dropout, weight decay), **early stopping**, learning-rate schedule.
+     - Theo dõi đường cong loss/accuracy theo epoch trên train và validation; quản lý tài nguyên GPU và checkpoint.
    - [LLM]
      - So sánh các model ứng viên (kích thước/nhà cung cấp khác nhau).
      - **Prompt engineering** có hệ thống (few-shot, hướng dẫn rõ ràng, định dạng đầu ra).

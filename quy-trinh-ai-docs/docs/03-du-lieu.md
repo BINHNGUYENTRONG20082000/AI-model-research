@@ -17,10 +17,12 @@ Chuẩn bị dữ liệu đủ **chất lượng, đại diện và hợp pháp*
 2. **Gán nhãn (labeling)** *(nếu cần học có giám sát)*
    - Định nghĩa hướng dẫn gán nhãn (labeling guideline) rõ ràng, ví dụ minh họa.
    - Đo độ đồng thuận giữa người gán nhãn (inter-annotator agreement).
+   - [DL] Gán nhãn chuyên biệt theo tác vụ: bounding box / segmentation mask cho ảnh, nhãn theo khung hình cho video, transcript cho âm thanh; thường cần khối lượng lớn.
    - [LLM] Có thể dùng LLM hỗ trợ gán nhãn sơ bộ rồi người kiểm tra (cẩn trọng với sai lệch).
 3. **Làm sạch & tiền xử lý**
    - Xử lý thiếu dữ liệu, trùng lặp, ngoại lệ (outlier), chuẩn hóa định dạng.
    - [ML] Feature engineering, mã hóa, chuẩn hóa thang đo.
+   - [DL] Chuẩn hóa/resize ảnh, trích đặc trưng âm thanh (spectrogram), tokenize văn bản; **data augmentation** (xoay/lật/cắt ảnh, nhiễu âm thanh) để tăng dữ liệu và chống overfitting.
    - [LLM] Làm sạch văn bản, chunking tài liệu cho RAG, loại bỏ trùng lặp/nhiễu.
 4. **Kiểm tra chất lượng & thiên lệch (bias)**
    - Phân bố lớp/đặc trưng có cân bằng và đại diện cho thực tế không?
@@ -29,6 +31,7 @@ Chuẩn bị dữ liệu đủ **chất lượng, đại diện và hợp pháp*
 5. **Tách tập dữ liệu**
    - [ML] Chia train/validation/test (ví dụ 70/15/15); với chuỗi thời gian phải chia theo thời gian.
    - Đảm bảo không rò rỉ giữa các tập (cùng người dùng/đối tượng không nằm cả train lẫn test).
+   - [DL] Cần lượng dữ liệu lớn; chỉ áp dụng augmentation trên tập train (không trên val/test); đảm bảo ảnh/đoạn của cùng một đối tượng không rơi vào cả train lẫn test.
    - [LLM] Xây **bộ dữ liệu đánh giá (eval set)** đại diện và các ví dụ "vàng" (golden examples); chuẩn bị dữ liệu fine-tune nếu dùng.
 6. **Quản trị dữ liệu (data governance)**
    - Ẩn danh/giả danh PII khi cần; kiểm soát truy cập.

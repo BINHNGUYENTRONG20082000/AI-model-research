@@ -11,6 +11,7 @@
 ## Hoạt động chi tiết
 1. **Chuẩn bị hạ tầng sản xuất**
    - Cấu hình tài nguyên (CPU/GPU/RAM), autoscaling, hạn mức (quota).
+   - [DL] Cân nhắc hạ tầng GPU (chi phí cao), gom batch để tăng thông lượng, autoscaling theo tải; hoặc dùng bản model đã nén (ONNX/TensorRT) để chạy trên CPU/edge nếu phù hợp.
    - Cấu hình môi trường, secret, biến cấu hình theo môi trường prod.
    - Hoàn tất [Deployment Checklist](../templates/04-deployment-checklist.md).
 2. **Chọn chiến lược release**

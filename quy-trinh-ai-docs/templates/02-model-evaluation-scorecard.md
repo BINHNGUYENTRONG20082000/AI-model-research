@@ -25,6 +25,15 @@
 | RMSE |  |  |  |  |
 | R² |  |  |  |  |
 
+## 2C. Chỉ số kỹ thuật — [DL] (theo tác vụ)
+| Chỉ số | Baseline | Model | Ngưỡng | Đạt? |
+|---|---|---|---|---|
+| Thị giác: Top-1 / Top-5 accuracy |  |  |  |  |
+| Phát hiện đối tượng: mAP / IoU |  |  |  |  |
+| Phân vùng: Dice / IoU |  |  |  |  |
+| NLP: F1 / Exact Match / BLEU / ROUGE |  |  |  |  |
+| Âm thanh: WER |  |  |  |  |
+
 ## 2B. Chỉ số chất lượng — [LLM]
 | Chỉ số | Baseline | Model | Ngưỡng | Đạt? |
 |---|---|---|---|---|

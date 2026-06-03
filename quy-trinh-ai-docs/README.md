@@ -2,12 +2,15 @@
 
 Tài liệu chuẩn hóa quy trình từng bước đưa một mô hình AI vào sản phẩm phần mềm: từ lúc **tiếp nhận yêu cầu**, **nghiên cứu**, **chuẩn bị dữ liệu**, **thử nghiệm và đánh giá model**, đến **tích hợp, kiểm thử, triển khai (deploy)** và **vận hành – cải tiến**.
 
-Tài liệu áp dụng cho cả hai nhóm:
+Tài liệu áp dụng cho cả ba nhóm:
 
-- **ML truyền thống**: tự huấn luyện model phân loại/hồi quy/dự đoán (ví dụ: dự đoán churn, chấm điểm rủi ro, phát hiện gian lận, gợi ý...).
-- **LLM/GenAI**: dùng API mô hình ngôn ngữ lớn, fine-tune, RAG, hệ thống dựa trên prompt (ví dụ: chatbot, trợ lý, tóm tắt, trích xuất thông tin...).
+- **[ML] ML truyền thống**: tự huấn luyện model phân loại/hồi quy/dự đoán trên dữ liệu bảng (ví dụ: dự đoán churn, chấm điểm rủi ro, phát hiện gian lận, gợi ý...).
+- **[DL] Deep Learning**: mạng nơ-ron sâu cho thị giác máy tính (ảnh/video), NLP, âm thanh/giọng nói, chuỗi thời gian (CNN, RNN/LSTM, Transformer...); thường dùng transfer learning / fine-tune mô hình tiền huấn luyện, cần GPU.
+- **[LLM] LLM/GenAI**: dùng API mô hình ngôn ngữ lớn, fine-tune, RAG, hệ thống dựa trên prompt (ví dụ: chatbot, trợ lý, tóm tắt, trích xuất thông tin...).
 
-Ở những bước có khác biệt giữa hai nhóm, tài liệu sẽ ghi chú rõ bằng nhãn **[ML]** và **[LLM]**.
+Ở những bước có khác biệt giữa các nhóm, tài liệu sẽ ghi chú rõ bằng nhãn **[ML]**, **[DL]** và **[LLM]**.
+
+> Lưu ý: LLM về bản chất cũng là deep learning. Ở đây ta tách **[DL]** cho các mạng nơ-ron tự huấn luyện/fine-tune (thị giác, NLP, âm thanh) và **[LLM]** cho mô hình nền/GenAI (chủ yếu dùng qua API, prompt, RAG).
 
 ---
 

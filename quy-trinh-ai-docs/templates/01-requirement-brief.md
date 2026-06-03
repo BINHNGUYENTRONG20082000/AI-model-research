@@ -21,6 +21,7 @@
 
 ## 4. Phân loại bài toán
 - [ ] [ML] Phân loại  [ ] Hồi quy  [ ] Xếp hạng/Gợi ý  [ ] Phát hiện bất thường  [ ] Dự báo chuỗi thời gian
+- [ ] [DL] Phân loại ảnh  [ ] Phát hiện đối tượng  [ ] Phân vùng ảnh  [ ] NLP (NER/dịch)  [ ] Nhận dạng giọng nói (ASR)
 - [ ] [LLM] Sinh văn bản  [ ] Hỏi đáp/RAG  [ ] Tóm tắt  [ ] Trích xuất  [ ] Phân loại bằng prompt  [ ] Agent
 - **Mô tả thêm**:
 

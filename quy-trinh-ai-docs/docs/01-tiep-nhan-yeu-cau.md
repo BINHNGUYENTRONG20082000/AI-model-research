@@ -28,7 +28,8 @@ Hiểu đúng **bài toán nghiệp vụ** đằng sau yêu cầu, xác định 
    - **Pháp lý & tuân thủ**: quy định ngành, GDPR/nghị định bảo vệ dữ liệu, yêu cầu giải thích được (explainability).
    - **Khối lượng**: số request/ngày, đỉnh tải.
 5. **Phân loại bài toán**
-   - [ML] Phân loại / hồi quy / xếp hạng / phát hiện bất thường / dự báo chuỗi thời gian.
+   - [ML] Phân loại / hồi quy / xếp hạng / phát hiện bất thường / dự báo chuỗi thời gian (dữ liệu bảng).
+   - [DL] Thị giác máy tính (phân loại ảnh, phát hiện đối tượng, phân vùng), NLP (phân loại văn bản, NER, dịch), âm thanh/giọng nói (ASR), chuỗi thời gian phức tạp — dùng mạng nơ-ron sâu.
    - [LLM] Sinh văn bản / hỏi đáp / tóm tắt / trích xuất / phân loại bằng prompt / agent.
 6. **Đánh giá rủi ro sơ bộ** — dùng [Risk Assessment](../templates/06-risk-assessment.md): tác hại nếu sai, nhóm bị ảnh hưởng, mức độ tự động hóa quyết định.
 7. **Chốt phạm vi (scope)** — phạm vi của phiên bản đầu (MVP) và những gì nằm ngoài phạm vi.

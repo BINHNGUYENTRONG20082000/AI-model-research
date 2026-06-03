@@ -4,7 +4,7 @@
 
 ## 1. Thông tin model
 - **Tên / phiên bản**:
-- **Loại**: [ML] thuật toán / [LLM] model nền + (prompt/RAG/fine-tune)
+- **Loại**: [ML] thuật toán / [DL] kiến trúc mạng (CNN/RNN/Transformer, train từ đầu hay fine-tune) / [LLM] model nền + (prompt/RAG/fine-tune)
 - **Chủ sở hữu (team/người)**:
 - **Ngày tạo / cập nhật**:
 - **Liên kết experiment / registry**:

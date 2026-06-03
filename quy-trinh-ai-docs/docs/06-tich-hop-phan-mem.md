@@ -25,6 +25,7 @@
    - **Feature flag** để bật/tắt tính năng AI mà không cần deploy lại.
 5. **Tối ưu suy luận (inference)**
    - [ML] Batch, lượng tử hóa (quantization), caching kết quả.
+   - [DL] Nén mô hình: **quantization, pruning, knowledge distillation**; xuất sang **ONNX/TensorRT/TFLite**; suy luận trên GPU, batching, hoặc tối ưu cho thiết bị biên (edge/mobile).
    - [LLM] Caching theo prompt, streaming phản hồi, kiểm soát độ dài đầu ra để giảm chi phí/độ trễ.
 6. **Bảo mật khi tích hợp**
    - Xác thực/ủy quyền cho endpoint; rate limiting.

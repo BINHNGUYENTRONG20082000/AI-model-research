@@ -16,6 +16,7 @@ th { background: #e7edf7; color: #14306b; }
 code { background: #f2f3f5; padding: 1px 4px; border-radius: 3px; font-family: Consolas,monospace; font-size: 9.5pt; }
 .tag { font-weight: bold; color: #7a2da3; }
 .tagml { font-weight: bold; color: #0b6b3a; }
+.tagdl { font-weight: bold; color: #b5630a; }
 ul, ol { margin-top: 4px; }
 li { margin: 2px 0; }
 .cover { text-align: center; margin-top: 120px; page-break-after: always; }
@@ -76,12 +77,14 @@ li { margin: 2px 0; }
 <!-- ============ GIOI THIEU ============ -->
 <h1 id="gioithieu">1. Giới thiệu &amp; phạm vi áp dụng</h1>
 <p>Tài liệu chuẩn hóa quy trình từng bước đưa một mô hình AI vào sản phẩm phần mềm: từ lúc <b>tiếp nhận yêu cầu</b>, <b>nghiên cứu</b>, <b>chuẩn bị dữ liệu</b>, <b>thử nghiệm và đánh giá model</b>, đến <b>tích hợp, kiểm thử, triển khai (deploy)</b> và <b>vận hành &ndash; cải tiến</b>.</p>
-<p>Tài liệu áp dụng cho cả hai nhóm:</p>
+<p>Tài liệu áp dụng cho cả ba nhóm:</p>
 <ul>
-  <li><span class="tagml">[ML]</span> <b>ML truyền thống</b>: tự huấn luyện model phân loại/hồi quy/dự đoán (dự đoán churn, chấm điểm rủi ro, phát hiện gian lận, gợi ý...).</li>
+  <li><span class="tagml">[ML]</span> <b>ML truyền thống</b>: tự huấn luyện model phân loại/hồi quy/dự đoán trên dữ liệu bảng (dự đoán churn, chấm điểm rủi ro, phát hiện gian lận, gợi ý...).</li>
+  <li><span class="tagdl">[DL]</span> <b>Deep Learning</b>: mạng nơ-ron sâu cho thị giác máy tính (ảnh/video), NLP, âm thanh/giọng nói, chuỗi thời gian (CNN, RNN/LSTM, Transformer...); thường dùng transfer learning / fine-tune mô hình tiền huấn luyện, cần GPU.</li>
   <li><span class="tag">[LLM]</span> <b>LLM/GenAI</b>: dùng API mô hình ngôn ngữ lớn, fine-tune, RAG, hệ thống dựa trên prompt (chatbot, trợ lý, tóm tắt, trích xuất...).</li>
 </ul>
-<p>Ở những bước có khác biệt giữa hai nhóm, tài liệu ghi chú rõ bằng nhãn <span class="tagml">[ML]</span> và <span class="tag">[LLM]</span>.</p>
+<p>Ở những bước có khác biệt giữa các nhóm, tài liệu ghi chú rõ bằng nhãn <span class="tagml">[ML]</span>, <span class="tagdl">[DL]</span> và <span class="tag">[LLM]</span>.</p>
+<p class="note">Lưu ý: LLM về bản chất cũng là deep learning. Ở đây ta tách <b>[DL]</b> cho các mạng nơ-ron tự huấn luyện/fine-tune (thị giác, NLP, âm thanh) và <b>[LLM]</b> cho mô hình nền/GenAI (chủ yếu dùng qua API, prompt, RAG).</p>
 
 <!-- ============ SO DO ============ -->
 <h1 id="sodo">2. Sơ đồ tổng quan quy trình</h1>
@@ -138,7 +141,7 @@ li { margin: 2px 0; }
   <li><b>Xác định AI có cần thiết không</b>: có thể giải bằng rule/heuristic/thống kê không? Bài toán có tính lặp lại, có dữ liệu, có mẫu để học không?</li>
   <li><b>Định nghĩa mục tiêu &amp; KPI</b>: KPI nghiệp vụ (vd giảm 20% thời gian xử lý), chỉ số kỹ thuật tương ứng (vd F1 &ge; 0.85), và <b>tiêu chí thành công tối thiểu</b> để được coi là đáng deploy.</li>
   <li><b>Xác định ràng buộc phi chức năng</b>: độ trễ (latency), chi phí (<span class="tag">[LLM]</span> chi phí token), bảo mật &amp; quyền riêng tư (PII, nơi xử lý), pháp lý &amp; tuân thủ, khối lượng/đỉnh tải.</li>
-  <li><b>Phân loại bài toán</b>: <span class="tagml">[ML]</span> phân loại/hồi quy/xếp hạng/phát hiện bất thường/dự báo chuỗi thời gian; <span class="tag">[LLM]</span> sinh văn bản/hỏi đáp/tóm tắt/trích xuất/phân loại bằng prompt/agent.</li>
+  <li><b>Phân loại bài toán</b>: <span class="tagml">[ML]</span> phân loại/hồi quy/xếp hạng/phát hiện bất thường/dự báo chuỗi thời gian (dữ liệu bảng); <span class="tagdl">[DL]</span> thị giác máy tính (phân loại ảnh, phát hiện đối tượng, phân vùng), NLP (phân loại văn bản, NER, dịch), âm thanh/giọng nói (ASR), chuỗi thời gian phức tạp; <span class="tag">[LLM]</span> sinh văn bản/hỏi đáp/tóm tắt/trích xuất/phân loại bằng prompt/agent.</li>
   <li><b>Đánh giá rủi ro sơ bộ</b> (dùng Phụ lục F): tác hại nếu sai, nhóm bị ảnh hưởng, mức độ tự động hóa quyết định.</li>
   <li><b>Chốt phạm vi (scope)</b>: phạm vi MVP và những gì nằm ngoài phạm vi.</li>
 </ol>
@@ -187,9 +190,9 @@ li { margin: 2px 0; }
 <h2>Hoạt động chi tiết</h2>
 <ol>
   <li><b>Khảo sát giải pháp &amp; state-of-the-art</b>: cách bài toán tương tự đã được giải (paper, blog, sản phẩm, thư viện); liệt kê hướng tiếp cận và ưu/nhược điểm.</li>
-  <li><b>Quyết định build vs buy</b>: <span class="tagml">[ML]</span> tự train (cần dữ liệu gán nhãn, hạ tầng, chuyên môn); <span class="tag">[LLM]</span> API có sẵn vs model mở (self-host) vs fine-tune vs RAG vs chỉ prompt engineering. Cân nhắc chi phí, kiểm soát dữ liệu, độ trễ, tùy biến, vendor lock-in.</li>
+  <li><b>Quyết định build vs buy</b>: <span class="tagml">[ML]</span> tự train (cần dữ liệu gán nhãn, hạ tầng, chuyên môn); <span class="tagdl">[DL]</span> train từ đầu (nhiều dữ liệu + GPU) vs transfer learning/fine-tune mô hình tiền huấn luyện (ImageNet, BERT, Whisper...), cân nhắc framework (PyTorch/TensorFlow) và nhu cầu GPU; <span class="tag">[LLM]</span> API có sẵn vs model mở (self-host) vs fine-tune vs RAG vs chỉ prompt engineering. Cân nhắc chi phí, kiểm soát dữ liệu, độ trễ, tùy biến, vendor lock-in.</li>
   <li><b>Xây dựng baseline</b>: phương án đơn giản nhất làm mốc so sánh; cải tiến về sau phải vượt baseline mới đáng giá.</li>
-  <li><b>Làm PoC nhanh</b>: <span class="tagml">[ML]</span> train thử trên dữ liệu nhỏ; <span class="tag">[LLM]</span> thử vài prompt/model trên 10&ndash;50 mẫu đại diện. Mục tiêu PoC là trả lời "có khả thi đạt KPI không", không phải tối ưu hoàn chỉnh.</li>
+  <li><b>Làm PoC nhanh</b>: <span class="tagml">[ML]</span> train thử trên dữ liệu nhỏ; <span class="tagdl">[DL]</span> fine-tune nhanh một mô hình tiền huấn luyện trên tập con để kiểm tra khả thi trước khi đầu tư train lớn; <span class="tag">[LLM]</span> thử vài prompt/model trên 10&ndash;50 mẫu đại diện. Mục tiêu PoC là trả lời "có khả thi đạt KPI không", không phải tối ưu hoàn chỉnh.</li>
   <li><b>Ước lượng chi phí &amp; nguồn lực</b>: chi phí train/inference, hạ tầng, lưu trữ; <span class="tag">[LLM]</span> ước lượng token (số request &times; token vào/ra &times; đơn giá), cân nhắc caching.</li>
   <li><b>Đánh giá rủi ro kỹ thuật &amp; dữ liệu</b>: đủ dữ liệu chất lượng không? bias/quyền riêng tư? rủi ro độ trễ, độ chính xác, khả năng giải thích.</li>
   <li><b>Khuyến nghị Go/No-Go</b> cho giai đoạn xây dựng đầy đủ.</li>
@@ -240,10 +243,10 @@ li { margin: 2px 0; }
 <h2>Hoạt động chi tiết</h2>
 <ol>
   <li><b>Thu thập dữ liệu</b>: xác định nguồn (DB sản xuất, log, bên thứ ba, thu thập mới); đảm bảo quyền sử dụng (license, hợp đồng, đồng thuận).</li>
-  <li><b>Gán nhãn (labeling)</b> (nếu học có giám sát): hướng dẫn gán nhãn rõ ràng, ví dụ minh họa; đo độ đồng thuận giữa người gán nhãn; <span class="tag">[LLM]</span> có thể dùng LLM gán nhãn sơ bộ rồi người kiểm tra.</li>
-  <li><b>Làm sạch &amp; tiền xử lý</b>: xử lý thiếu/trùng/ngoại lệ, chuẩn hóa; <span class="tagml">[ML]</span> feature engineering, mã hóa, chuẩn hóa thang đo; <span class="tag">[LLM]</span> làm sạch văn bản, chunking tài liệu cho RAG.</li>
+  <li><b>Gán nhãn (labeling)</b> (nếu học có giám sát): hướng dẫn gán nhãn rõ ràng, ví dụ minh họa; đo độ đồng thuận giữa người gán nhãn; <span class="tagdl">[DL]</span> gán nhãn chuyên biệt (bounding box/segmentation mask cho ảnh, nhãn theo khung hình cho video, transcript cho âm thanh), thường cần khối lượng lớn; <span class="tag">[LLM]</span> có thể dùng LLM gán nhãn sơ bộ rồi người kiểm tra.</li>
+  <li><b>Làm sạch &amp; tiền xử lý</b>: xử lý thiếu/trùng/ngoại lệ, chuẩn hóa; <span class="tagml">[ML]</span> feature engineering, mã hóa, chuẩn hóa thang đo; <span class="tagdl">[DL]</span> chuẩn hóa/resize ảnh, trích đặc trưng âm thanh (spectrogram), tokenize văn bản, <b>data augmentation</b> để tăng dữ liệu và chống overfitting; <span class="tag">[LLM]</span> làm sạch văn bản, chunking tài liệu cho RAG.</li>
   <li><b>Kiểm tra chất lượng &amp; thiên lệch (bias)</b>: phân bố có cân bằng/đại diện không? thiên lệch theo nhóm nhạy cảm? phát hiện <b>rò rỉ dữ liệu (data leakage)</b>.</li>
-  <li><b>Tách tập dữ liệu</b>: <span class="tagml">[ML]</span> train/validation/test (vd 70/15/15); chuỗi thời gian chia theo thời gian; không rò rỉ giữa các tập; <span class="tag">[LLM]</span> xây <b>eval set</b> đại diện và golden examples, chuẩn bị dữ liệu fine-tune nếu dùng.</li>
+  <li><b>Tách tập dữ liệu</b>: <span class="tagml">[ML]</span> train/validation/test (vd 70/15/15); chuỗi thời gian chia theo thời gian; không rò rỉ giữa các tập; <span class="tagdl">[DL]</span> cần lượng dữ liệu lớn, chỉ augmentation trên tập train, đảm bảo ảnh/đoạn của cùng đối tượng không rơi vào cả train lẫn test; <span class="tag">[LLM]</span> xây <b>eval set</b> đại diện và golden examples, chuẩn bị dữ liệu fine-tune nếu dùng.</li>
   <li><b>Quản trị dữ liệu (governance)</b>: ẩn danh/giả danh PII; kiểm soát truy cập; <b>versioning dữ liệu</b>; ghi data lineage và data card.</li>
 </ol>
 <h2>Vai trò (RACI)</h2>
@@ -294,6 +297,7 @@ li { margin: 2px 0; }
   <li><b>Thử nghiệm ứng viên</b>:
     <ul>
       <li><span class="tagml">[ML]</span> thử nhiều thuật toán (logistic, gradient boosting, mạng nơ-ron) từ đơn giản đến phức tạp; tinh chỉnh siêu tham số trên validation; cross-validation khi dữ liệu ít; theo dõi overfitting/underfitting.</li>
+      <li><span class="tagdl">[DL]</span> chọn kiến trúc phù hợp (CNN cho ảnh, RNN/LSTM cho chuỗi, Transformer cho NLP/đa phương thức); ưu tiên transfer learning/fine-tune mô hình tiền huấn luyện; tinh chỉnh learning rate, batch size, số epoch, optimizer; dùng regularization (dropout, weight decay), early stopping; theo dõi đường cong loss/accuracy theo epoch; quản lý GPU và checkpoint.</li>
       <li><span class="tag">[LLM]</span> so sánh model ứng viên; prompt engineering có hệ thống (few-shot, hướng dẫn rõ, định dạng đầu ra); nếu RAG: thử chunking, embedding, top-k, reranking; cân nhắc fine-tune khi prompt/RAG chưa đủ.</li>
     </ul>
   </li>
@@ -346,6 +350,7 @@ li { margin: 2px 0; }
   <li><span class="tagml">[ML]</span> <b>Phân loại</b>: Accuracy, Precision, Recall, <b>F1</b>, ROC-AUC, PR-AUC, confusion matrix. Khi mất cân bằng, ưu tiên F1/PR-AUC hơn accuracy.</li>
   <li><span class="tagml">[ML]</span> <b>Hồi quy</b>: MAE, RMSE, MAPE, R².</li>
   <li><span class="tagml">[ML]</span> <b>Xếp hạng/gợi ý</b>: Precision@k, Recall@k, NDCG, MAP. Cân nhắc hiệu chỉnh xác suất (calibration).</li>
+  <li><span class="tagdl">[DL]</span> theo tác vụ: thị giác — Top-1/Top-5 accuracy, <b>mAP</b>/IoU (phát hiện đối tượng), Dice/IoU (phân vùng); NLP — F1/Exact Match, <b>BLEU</b>/<b>ROUGE</b>, perplexity; âm thanh — <b>WER</b>; kiểm tra độ bền với nhiễu và tấn công đối nghịch (adversarial).</li>
   <li><span class="tag">[LLM]</span> chất lượng tác vụ (độ chính xác trả lời/trích xuất, tương đồng với tham chiếu); <b>faithfulness/groundedness</b> (RAG); <b>hallucination rate</b>; <b>an toàn</b> (nội dung độc hại/không phù hợp); tính ổn định khi lặp lại. Có thể dùng <b>LLM-as-a-judge</b> nhưng cần hiệu chỉnh với con người.</li>
 </ul>
 <h3>2. Đánh giá theo con người (human evaluation)</h3>
@@ -405,7 +410,7 @@ li { margin: 2px 0; }
   <li><b>Định nghĩa hợp đồng API</b>: schema vào/ra rõ ràng, có versioning (vd <code>/v1/predict</code>); quy ước mã lỗi, định dạng phản hồi, giới hạn kích thước.</li>
   <li><b>Xử lý lỗi &amp; fallback</b>: timeout, retry có kiểm soát, circuit breaker; fallback khi model lỗi/độ tin cậy thấp (giá trị mặc định, chuyển sang rule, bàn giao con người); <span class="tag">[LLM]</span> xử lý rate limit, lỗi nội dung, đầu ra sai định dạng (validate &amp; retry).</li>
   <li><b>Quản lý phiên bản &amp; cấu hình</b>: <b>model registry</b> lưu model theo phiên bản; tách cấu hình khỏi code; quản lý secret/khóa API an toàn; <b>feature flag</b> bật/tắt mà không deploy lại.</li>
-  <li><b>Tối ưu suy luận (inference)</b>: <span class="tagml">[ML]</span> batch, quantization, caching; <span class="tag">[LLM]</span> caching theo prompt, streaming, kiểm soát độ dài đầu ra.</li>
+  <li><b>Tối ưu suy luận (inference)</b>: <span class="tagml">[ML]</span> batch, quantization, caching; <span class="tagdl">[DL]</span> nén mô hình (quantization, pruning, knowledge distillation), xuất ONNX/TensorRT/TFLite, suy luận GPU/batching hoặc tối ưu cho edge/mobile; <span class="tag">[LLM]</span> caching theo prompt, streaming, kiểm soát độ dài đầu ra.</li>
   <li><b>Bảo mật khi tích hợp</b>: xác thực/ủy quyền endpoint, rate limiting; <span class="tag">[LLM]</span> phòng prompt injection, lọc PII vào/ra, không log dữ liệu nhạy cảm.</li>
   <li><b>Tích hợp UI/UX</b>: thể hiện độ tin cậy/giải thích khi phù hợp; cho phép người dùng phản hồi (feedback).</li>
 </ol>
@@ -506,7 +511,7 @@ li { margin: 2px 0; }
 </ul>
 <h2>Hoạt động chi tiết</h2>
 <ol>
-  <li><b>Chuẩn bị hạ tầng sản xuất</b>: cấu hình tài nguyên (CPU/GPU/RAM), autoscaling, quota; cấu hình môi trường, secret theo prod; hoàn tất Deployment Checklist (Phụ lục D).</li>
+  <li><b>Chuẩn bị hạ tầng sản xuất</b>: cấu hình tài nguyên (CPU/GPU/RAM), autoscaling, quota; <span class="tagdl">[DL]</span> cân nhắc hạ tầng GPU (chi phí cao), gom batch để tăng thông lượng, hoặc dùng bản model đã nén (ONNX/TensorRT) chạy trên CPU/edge nếu phù hợp; cấu hình môi trường, secret theo prod; hoàn tất Deployment Checklist (Phụ lục D).</li>
   <li><b>Chọn chiến lược release</b>: <b>Shadow/dark launch</b> (chạy song song, không ảnh hưởng người dùng), <b>Canary</b> (mở dần cho % nhỏ), <b>Blue-Green</b> (hai phiên bản song song, chuyển/rollback nhanh), <b>A/B test</b> (so model mới với baseline trên KPI, có ý nghĩa thống kê).</li>
   <li><b>Triển khai theo từng bước (rollout)</b>: bật qua feature flag cho nhóm nhỏ &rarr; quan sát &rarr; mở rộng dần; theo dõi chỉ số kỹ thuật (latency, lỗi) và nghiệp vụ (KPI).</li>
   <li><b>Phê duyệt &amp; truyền thông</b>: có release approval; thông báo các bên; chuẩn bị tài liệu hỗ trợ/CSKH.</li>
@@ -559,7 +564,7 @@ li { margin: 2px 0; }
 </ul>
 <h2>Hoạt động chi tiết</h2>
 <ol>
-  <li><b>Giám sát hệ thống (operational)</b>: latency (p50/p95/p99), throughput, error rate, uptime/SLO; tài nguyên; <span class="tag">[LLM]</span> số token, rate limit, lỗi nhà cung cấp.</li>
+  <li><b>Giám sát hệ thống (operational)</b>: latency (p50/p95/p99), throughput, error rate, uptime/SLO; tài nguyên; <span class="tagdl">[DL]</span> mức sử dụng GPU/bộ nhớ GPU và chi phí GPU; <span class="tag">[LLM]</span> số token, rate limit, lỗi nhà cung cấp.</li>
   <li><b>Giám sát chất lượng model</b>: theo dõi chỉ số khi có nhãn thực tế (có thể trễ); khi chưa có nhãn dùng proxy (tỉ lệ chấp nhận, tỉ lệ chuyển sang con người, phản hồi tiêu cực); <span class="tag">[LLM]</span> theo dõi hallucination/an toàn qua lấy mẫu + chấm, tỉ lệ phản hồi sai định dạng.</li>
   <li><b>Phát hiện drift</b>: <b>data drift</b> (phân bố đầu vào đổi), <b>concept drift</b> (quan hệ vào&ndash;nhãn đổi), <b>prediction drift</b> (phân bố đầu ra bất thường); đặt ngưỡng cảnh báo cho từng loại.</li>
   <li><b>Giám sát chi phí</b>: chi phí hạ tầng/inference; <span class="tag">[LLM]</span> chi phí token theo ngày/tuần, phát hiện tăng bất thường.</li>
@@ -668,6 +673,7 @@ li { margin: 2px 0; }
 <h3>4. Phân loại bài toán</h3>
 <ul>
 <li>&#9744; [ML] Phân loại &nbsp; &#9744; Hồi quy &nbsp; &#9744; Xếp hạng/Gợi ý &nbsp; &#9744; Phát hiện bất thường &nbsp; &#9744; Dự báo chuỗi thời gian</li>
+<li>&#9744; [DL] Phân loại ảnh &nbsp; &#9744; Phát hiện đối tượng &nbsp; &#9744; Phân vùng ảnh &nbsp; &#9744; NLP (NER/dịch) &nbsp; &#9744; Nhận dạng giọng nói (ASR)</li>
 <li>&#9744; [LLM] Sinh văn bản &nbsp; &#9744; Hỏi đáp/RAG &nbsp; &#9744; Tóm tắt &nbsp; &#9744; Trích xuất &nbsp; &#9744; Phân loại bằng prompt &nbsp; &#9744; Agent</li>
 </ul>
 <h3>5. Ràng buộc phi chức năng</h3>
@@ -708,6 +714,15 @@ li { margin: 2px 0; }
 <tr><td>MAE</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>RMSE</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>R²</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<h3>2C. Chỉ số kỹ thuật — [DL] (theo tác vụ)</h3>
+<table>
+<tr><th>Chỉ số</th><th>Baseline</th><th>Model</th><th>Ngưỡng</th><th>Đạt?</th></tr>
+<tr><td>Thị giác: Top-1 / Top-5 accuracy</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Phát hiện đối tượng: mAP / IoU</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Phân vùng: Dice / IoU</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>NLP: F1 / Exact Match / BLEU / ROUGE</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Âm thanh: WER</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 </table>
 <h3>2B. Chỉ số chất lượng — [LLM]</h3>
 <table>
@@ -755,7 +770,7 @@ li { margin: 2px 0; }
 <h2 id="pl3">Phụ lục C — Model Card</h2>
 <p><i>Tài liệu hóa model trước khi deploy (GĐ 5&ndash;6) và cập nhật mỗi phiên bản.</i></p>
 <h3>1. Thông tin model</h3>
-<ul><li>Tên / phiên bản:</li><li>Loại: [ML] thuật toán / [LLM] model nền + (prompt/RAG/fine-tune):</li><li>Chủ sở hữu (team/người):</li><li>Ngày tạo / cập nhật:</li><li>Liên kết experiment / registry:</li></ul>
+<ul><li>Tên / phiên bản:</li><li>Loại: [ML] thuật toán / [DL] kiến trúc mạng (CNN/RNN/Transformer, train từ đầu hay fine-tune) / [LLM] model nền + (prompt/RAG/fine-tune):</li><li>Chủ sở hữu (team/người):</li><li>Ngày tạo / cập nhật:</li><li>Liên kết experiment / registry:</li></ul>
 <h3>2. Mục đích sử dụng</h3>
 <ul><li>Bài toán giải quyết:</li><li>Người dùng dự kiến:</li><li>Cách dùng đúng:</li><li>Cách dùng KHÔNG nên (out-of-scope):</li></ul>
 <h3>3. Dữ liệu</h3>

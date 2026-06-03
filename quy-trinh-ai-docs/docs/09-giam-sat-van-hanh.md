@@ -13,7 +13,7 @@
 ## Hoạt động chi tiết
 1. **Giám sát hệ thống (operational)**
    - Latency (p50/p95/p99), throughput, tỉ lệ lỗi, uptime/SLO.
-   - Tài nguyên (CPU/GPU/RAM), hàng đợi; [LLM] số token, rate limit, lỗi nhà cung cấp.
+   - Tài nguyên (CPU/GPU/RAM), hàng đợi; [DL] giám sát mức sử dụng GPU/bộ nhớ GPU và chi phí GPU; [LLM] số token, rate limit, lỗi nhà cung cấp.
 2. **Giám sát chất lượng model (model performance)**
    - Theo dõi chỉ số chất lượng khi có nhãn thực tế (ground truth) trở về (có thể trễ).
    - Khi chưa có nhãn ngay: dùng proxy (tỉ lệ người dùng chấp nhận, tỉ lệ chuyển sang con người, phản hồi tiêu cực).

@@ -14,6 +14,7 @@ Khảo sát các hướng giải pháp, xây dựng **baseline** và **Proof of 
    - Liệt kê các hướng tiếp cận khả dĩ và ưu/nhược điểm.
 2. **Quyết định hướng xây dựng (build vs buy)**
    - [ML] Tự train model: cần dữ liệu gán nhãn, hạ tầng train, chuyên môn.
+   - [DL] Train từ đầu (cần nhiều dữ liệu + GPU) vs **transfer learning / fine-tune** mô hình tiền huấn luyện (ImageNet, BERT, Whisper...). Cân nhắc framework (PyTorch/TensorFlow), nhu cầu GPU và thời gian train.
    - [LLM] Dùng API có sẵn (closed-source) vs model mở (self-host) vs fine-tune vs **RAG** (truy hồi tri thức) vs chỉ prompt engineering.
    - Cân nhắc: chi phí, kiểm soát dữ liệu, độ trễ, khả năng tùy biến, khóa nhà cung cấp (vendor lock-in).
 3. **Xây dựng baseline**
@@ -21,6 +22,7 @@ Khảo sát các hướng giải pháp, xây dựng **baseline** và **Proof of 
    - Mọi cải tiến về sau phải vượt baseline mới đáng giá.
 4. **Làm PoC nhanh**
    - [ML] Train thử trên tập dữ liệu nhỏ, đo chỉ số sơ bộ.
+   - [DL] Fine-tune nhanh một mô hình tiền huấn luyện trên tập con để kiểm tra tính khả thi trước khi đầu tư train lớn.
    - [LLM] Thử vài prompt/model trên một bộ ví dụ đại diện (10–50 mẫu), đánh giá định tính + định lượng nhanh.
    - Mục tiêu PoC: trả lời "có khả thi đạt KPI không?", **không** phải tối ưu hoàn chỉnh.
 5. **Ước lượng chi phí & nguồn lực**
