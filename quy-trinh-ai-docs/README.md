@@ -43,7 +43,7 @@ Quy trình là một **vòng lặp**: kết quả giám sát ở giai đoạn v�
 | 2 | [docs/02-nghien-cuu-kha-thi.md](docs/02-nghien-cuu-kha-thi.md) | Nghiên cứu, baseline, PoC, đánh giá khả thi |
 | 3 | [docs/03-du-lieu.md](docs/03-du-lieu.md) | Thu thập, gán nhãn, làm sạch, quản trị dữ liệu |
 | 4 | [docs/04-thu-nghiem-lua-chon-model.md](docs/04-thu-nghiem-lua-chon-model.md) | Thí nghiệm, theo dõi experiment, chọn model |
-| 5 | [docs/05-danh-gia-model.md](docs/05-danh-gia-model.md) | Đánh giá offline/online, Go/No-Go |
+| 5 | [docs/05-danh-gia-hieu-chinh.md](docs/05-danh-gia-hieu-chinh.md) | Đánh giá & hiệu chỉnh, Go/No-Go |
 | 6 | [docs/06-tich-hop-phan-mem.md](docs/06-tich-hop-phan-mem.md) | Đóng gói model thành service, API, fallback |
 | 7 | [docs/07-kiem-thu-qa.md](docs/07-kiem-thu-qa.md) | Kiểm thử, red-teaming, kiểm thử tải & bảo mật |
 | 8 | [docs/08-trien-khai-deploy.md](docs/08-trien-khai-deploy.md) | Chiến lược release, A/B test, rollback |

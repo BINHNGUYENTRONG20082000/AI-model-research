@@ -38,6 +38,11 @@
 - **[ML] Hồi quy (Regression)**: MAE, RMSE, MAPE, R².
 - **[ML] Xếp hạng/gợi ý**: Precision@k, Recall@k, NDCG, MAP.
 - **[ML] Hiệu chỉnh xác suất (calibration)**: Nếu cần xác suất tin cậy.
+- **[DL] Theo tác vụ**:
+  - Thị giác: Top-1/Top-5 accuracy (phân loại), **mAP**/IoU (phát hiện đối tượng), Dice/IoU (phân vùng).
+  - NLP: F1/Exact Match, **BLEU**/**ROUGE**, perplexity.
+  - Âm thanh: **WER** (nhận dạng giọng nói).
+  - Kiểm tra độ bền với nhiễu/biến đổi đầu vào và tấn công đối nghịch (adversarial).
 - **[LLM / NLP]**:
   - **Chỉ số NLP truyền thống**: BLEU, ROUGE, Perplexity.
   - **Chất lượng tác vụ**: Độ chính xác trả lời, độ đúng trích xuất, điểm tương đồng (ví dụ với tham chiếu).
