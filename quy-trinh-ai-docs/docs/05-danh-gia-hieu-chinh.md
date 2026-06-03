@@ -2,6 +2,10 @@
 
 *Ước lượng thời gian thực hiện: 1 - 3 tháng*
 
+## Sơ đồ quy trình
+
+![Sơ đồ quy trình](../img/05-final.drawio.svg)
+
 ## Mục tiêu
 
 Đánh giá toàn diện ứng viên model trên dữ liệu chưa từng thấy, theo cả **chỉ số kỹ thuật**, **chất lượng theo con người**, **công bằng/an toàn** và **ràng buộc vận hành**, để ra quyết định **Go/No-Go** có căn cứ. Giai đoạn này đóng vai trò như một màng lọc kiểm định chất lượng, nhằm đảm bảo mô hình trí tuệ nhân tạo (AI) hoạt động chính xác, ổn định và đáp ứng đúng các mục tiêu kinh doanh trước khi đưa vào sử dụng thực tế. Quy trình gồm 2 phần chính: **Phần A (Đánh giá)** và **Phần B (Hiệu chỉnh)**, được lặp lại liên tục cho đến khi đạt tiêu chuẩn.
